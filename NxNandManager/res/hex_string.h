@@ -1,4 +1,4 @@
-#ifndef __hex_string_h__
+﻿#ifndef __hex_string_h__
 #define __hex_string_h__
 
 #include <string>

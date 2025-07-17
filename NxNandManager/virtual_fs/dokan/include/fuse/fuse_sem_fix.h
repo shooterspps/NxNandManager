@@ -1,4 +1,4 @@
-#ifndef FUSE_SEM_FIX_H_
+﻿#ifndef FUSE_SEM_FIX_H_
 #define FUSE_SEM_FIX_H_
 
 #ifdef __CYGWIN__

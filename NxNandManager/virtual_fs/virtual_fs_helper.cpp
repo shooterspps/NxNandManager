@@ -1,4 +1,4 @@
-#include "virtual_fs_helper.h"
+﻿#include "virtual_fs_helper.h"
 #include <dokan/dokan.h>
 #include "../res/utils.h"
 #include <shellapi.h>
@@ -55,28 +55,28 @@ std::string dokanNtStatusToStr(NTSTATUS status)
     case DOKAN_SUCCESS:
         break;
     case DOKAN_ERROR:
-        str = "Error while launching dokan driver";
+        str = "启动 dokan 驱动程序时出错";
         break;
     case DOKAN_DRIVE_LETTER_ERROR:
-        str = "Bad Drive letter";
+        str = "驱动器盘符错误";
         break;
     case DOKAN_DRIVER_INSTALL_ERROR:
-        str = "Can't load/install dokan driver";
+        str = "无法加载/安装 dokan 驱动程序";
         break;
     case DOKAN_START_ERROR:
-        str = "Driver something wrong";
+        str = "驱动器出错";
         break;
     case DOKAN_MOUNT_ERROR:
-        str = "Can't assign a drive letter";
+        str = "不能分配驱动器盘符";
         break;
     case DOKAN_MOUNT_POINT_ERROR:
-        str = "Mount point error";
+        str = "挂载端口错误";
         break;
     case DOKAN_VERSION_ERROR:
-        str = "Version error";
+        str = "版本错误";
         break;
     default:
-      str = "DokanMain failed with status" + std::to_string(status);
+      str = "DokanMain 状态失败" + std::to_string(status);
     }
     return str;
 }

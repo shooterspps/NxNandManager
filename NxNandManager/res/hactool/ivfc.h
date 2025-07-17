@@ -1,4 +1,4 @@
-#ifndef HACTOOL_IVFC_H
+﻿#ifndef HACTOOL_IVFC_H
 #define HACTOOL_IVFC_H
 
 #include "types.h"

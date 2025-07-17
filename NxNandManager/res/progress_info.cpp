@@ -1,4 +1,4 @@
-#include "progress_info.h"
+﻿#include "progress_info.h"
 
 part_params_t* GetPartParam(params_t *params, int nxType)
 {

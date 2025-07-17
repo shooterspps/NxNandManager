@@ -1,4 +1,4 @@
-#ifndef HACTOOL_TYPES_H
+﻿#ifndef HACTOOL_TYPES_H
 #define HACTOOL_TYPES_H
 
 #include <errno.h>

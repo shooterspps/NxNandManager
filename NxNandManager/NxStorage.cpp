@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2019 eliboa
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -478,7 +478,7 @@ void NxStorage::constructor(const wstring &storage)
 
             if(isdebug)
             {
-                dbg_printf("-- GPT header --");
+                dbg_printf("-- GPT 标头 --");
                 dbg_printf("starts at lba %I64d (off 0x%s)\n", hdr->my_lba, n2hexstr((u64)hdr->my_lba * NX_BLOCKSIZE, 10).c_str());
                 dbg_printf("backup header at lba %I64d (off 0x%s)\n", hdr->alt_lba, n2hexstr((u64)hdr->alt_lba * NX_BLOCKSIZE, 10).c_str());
                 dbg_printf("first use lba %I64d (off 0x%s)\n", hdr->first_use_lba, n2hexstr((u64)hdr->first_use_lba * NX_BLOCKSIZE, 10).c_str());
@@ -709,7 +709,7 @@ void NxStorage::constructor(const wstring &storage)
     if (not_in(type, { UNKNOWN, INVALID }))
         setStorageInfo();
     
-    dbg_printf("NxStorage::NxStorage() ends. Size is %I64d (diskFreeBytes = %I64d). type is %s - %s\n", m_size, m_freeSpace, getNxTypeAsStr(), isSplitted() ? "is splitted" : "not splitted");
+    dbg_printf("NxStorage::NxStorage() ends. Size is %I64d (diskFreeBytes = %I64d). type is %s - %s\n", m_size, m_freeSpace, getNxTypeAsStr(), isSplitted() ? "分卷" : "未分卷");
 }
 
 NxStorage::~NxStorage()
@@ -1854,7 +1854,7 @@ bool NxStorage::setAutoRcm(bool enable)
     BYTE buff[0x200];
 
     if (isDrive() && !nxHandle->lockVolume())
-        dbg_printf("failed to lock volume\n");
+        dbg_printf("锁定卷失败\n");
 
     bool error = false;
     for (int i = 0; i < 4; i++)
@@ -1883,7 +1883,7 @@ bool NxStorage::setAutoRcm(bool enable)
     }
 
     if (isDrive() && !nxHandle->unlockVolume())
-        dbg_printf("failed to unlock volume\n");
+        dbg_printf("未能解锁卷\n");
 
     if (!error)
         this->autoRcm = enable;
@@ -1893,7 +1893,7 @@ bool NxStorage::setAutoRcm(bool enable)
 
 int NxStorage::applyIncognito()
 {
-    dbg_printf("Applying incognito");
+    dbg_printf("应用擦除序列号");
     NxPartition *cal0 = getNxPartition(PRODINFO);
     if (nullptr == cal0)
         return ERR_IN_PART_NOT_FOUND;
@@ -1915,7 +1915,7 @@ int NxStorage::applyIncognito()
         return ERR_INPUT_HANDLE;
 
     if (isDrive() && !nxHandle->lockVolume())
-        dbg_printf("failed to lock volume\n");
+        dbg_printf("锁定卷失败\n");
     
     // Read cal0 data size
     uint32_t calib_data_size;
@@ -1983,7 +1983,7 @@ int NxStorage::applyIncognito()
         {
             delete[] buffer;
             if (isDrive() && !nxHandle->unlockVolume())
-                dbg_printf("failed to unlock volume\n");
+                dbg_printf("未能解锁卷\n");
             return ERR_INPUT_HANDLE;
         }
     }
@@ -1991,7 +1991,7 @@ int NxStorage::applyIncognito()
     setStorageInfo(PRODINFO);
     delete[] buffer;
     if (isDrive() && !nxHandle->unlockVolume())
-        dbg_printf("failed to unlock volume\n");
+        dbg_printf("未能解锁卷\n");
     return SUCCESS;
 }
 
@@ -2138,7 +2138,7 @@ int NxStorage::createMmcEmuNand(const char* mmc_path, void(*updateProgress)(Prog
 
     ProgressInfo pi, spi;
     pi.mode = CREATE;
-    sprintf(pi.storage_name, "emuNAND");
+    sprintf(pi.storage_name, "虚拟系统");
     pi.begin_time = std::chrono::system_clock::now();
     pi.bytesCount = 0;
     pi.bytesTotal = nand_size + (u64((bs->reserved_sector_count + bs->fat_size * bs->num_fats) * NX_BLOCKSIZE + CLUSTER_SIZE));
@@ -2638,7 +2638,7 @@ int NxStorage::createFileBasedEmuNand(EmunandType emu_type, const wstring &volum
 
     ProgressInfo pi;
     pi.mode = CREATE;
-    sprintf(pi.storage_name, "file based emuNAND");
+    sprintf(pi.storage_name, "基于文件形式的虚拟系统");
     pi.begin_time = std::chrono::system_clock::now();
     pi.bytesTotal = type == RAWMMC ? size() : boot0->size() + boot1->size() + size();
 

@@ -1,4 +1,4 @@
-#include <stdexcept>
+﻿#include <stdexcept>
 #include "hex_string.h"
 
 unsigned char hex_string::decode_half_byte(char c) {

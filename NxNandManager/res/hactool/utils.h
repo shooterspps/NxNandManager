@@ -1,4 +1,4 @@
-#ifndef HACTOOL_UTILS_H
+﻿#ifndef HACTOOL_UTILS_H
 #define HACTOOL_UTILS_H
 
 #include <stdio.h>
