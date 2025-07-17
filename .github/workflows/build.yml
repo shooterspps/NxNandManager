@@ -28,10 +28,11 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/bin
           cp release/NxNandManager.exe $GITHUB_WORKSPACE/bin
           cp ../virtual_fs/dokan/x64/dokan1.dll $GITHUB_WORKSPACE/bin
+
       - name: Create zip archive
         run: |
-          cd bin
-          zip -r ../NxNandManager.zip *
+          Compress-Archive -Path bin\* -DestinationPath NxNandManager.zip -Force
+
       - uses: actions/upload-artifact@v4
         with:
           name: NxNandManager
