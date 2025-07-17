@@ -1,4 +1,4 @@
-/* Threads.c */
+﻿/* Threads.c */
 
 #include "Threads.h"
 

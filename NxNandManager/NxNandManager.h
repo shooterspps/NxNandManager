@@ -1,4 +1,4 @@
-
+﻿
 #ifndef __NxNandManager_h__
 #define __NxNandManager_h__
 

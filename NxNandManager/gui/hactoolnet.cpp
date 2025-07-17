@@ -1,4 +1,4 @@
-#include "hactoolnet.h"
+﻿#include "hactoolnet.h"
 #include "qutils.h"
 #include <QTextStream>
 #include <QDir>
@@ -35,8 +35,8 @@ void HacToolNet::process_exit(QProcess &process, std::function<void()> functor, 
                     }
                 }
                 else if (!line.contains('#') && !line.contains(0x8)
-                         && !line.contains("Failed to match key")
-                         && !line.contains("Invalid rights ID"))
+                         && !line.contains("匹配密钥失败")
+                         && !line.contains("无效的权限 ID"))
                 {
                     if (line.startsWith('\r') || line.startsWith('\n'))
                         line = line.trimmed();
@@ -44,8 +44,8 @@ void HacToolNet::process_exit(QProcess &process, std::function<void()> functor, 
                     if (!line.isEmpty())
                         out_stream << line + "\n";
 
-                    if (line.startsWith("ERROR:"))
-                        last_error = "Hactoolnet error: " + line.right(line.length() - 7);
+                    if (line.startsWith("错误:"))
+                        last_error = "Hactoolnet 错误: " + line.right(line.length() - 7);
                 }
             }
             if (!out_message.isEmpty())
@@ -60,12 +60,12 @@ void HacToolNet::process_exit(QProcess &process, std::function<void()> functor, 
         dbg_wprintf(L"HacToolNet process exit (%d), cmd: %s\n", exitCode, process.arguments().join(" ").toStdWString().c_str());
         if (exitCode != SUCCESS || exitStatus != QProcess::NormalExit) {
             if (last_error.isEmpty())
-                last_error = QString("Hactoolnet error: %1").arg(exitCode);
+                last_error = QString("Hactoolnet 错误: %1").arg(exitCode);
             auto output = process.readAllStandardError();
             QTextStream stream(output);
             QString line;
-            while (stream.readLineInto(&line)) if (line.startsWith("ERROR:")) {
-                last_error = "Hactoolnet error: " + line.right(line.length() - 7);
+            while (stream.readLineInto(&line)) if (line.startsWith("错误:")) {
+                last_error = "Hactoolnet 错误: " + line.right(line.length() - 7);
                 break;
             }
             if (flags.testFlag(EmitErrorSignal))
@@ -123,7 +123,7 @@ bool HacToolNet::extractFiles(const QString &file, const Type type, const QStrin
     };
 
     if (!this->exists() || !QFile(file).exists())
-        return exit("Unable to open " + file);
+        return exit("无法打开 " + file);
 
     QStringList args;
     args << file;
@@ -147,10 +147,10 @@ bool HacToolNet::extractFiles(const QString &file, const Type type, const QStrin
     l_process.start(hactool_exe, args);
     l_process.waitForFinished(-1); // Synchronous
     if (!hasFiles)
-        return exit("There's nothing to extract from " + file);
+        return exit("无任何可以提取 " + file);
 
     if (!QDir(output_dir).exists() && !QDir().mkpath(output_dir))
-        return exit("Failed to create output dir " + output_dir);
+        return exit("创建输出目录失败 " + output_dir);
 
     args.clear();
     args << file;
@@ -161,14 +161,14 @@ bool HacToolNet::extractFiles(const QString &file, const Type type, const QStrin
     args << "-k" << "keys.dat" << "--titlekeys" << "keys.dat";
 
     if (!EnsureOutputDir(output_dir))
-        return exit(QString("Failed to create dir %1").arg(output_dir));
+        return exit(QString("创建目录 %1 失败").arg(output_dir));
 
     QProcess process(this);
     process_exit(process, nullptr, ConsoleWrite);
     process.start(hactool_exe, args);
     process.waitForFinished(-1); // Synchronous
 
-    return process.exitCode() == SUCCESS ? true : exit(last_error.isEmpty() ? "Failed to extract files from " + file
+    return process.exitCode() == SUCCESS ? true : exit(last_error.isEmpty() ? "提取文件失败 " + file
                                                                             : last_error + " (" + file + ")");
 }
 
@@ -181,7 +181,7 @@ bool HacToolNet::plaintextNCA(const QString &input_filepath, const QString &outp
     };
 
     if (!this->exists() || !QFile(input_filepath).exists())
-        return exit("Unable to open " + input_filepath);;
+        return exit("无法打开 " + input_filepath);;
 
     QStringList args;
     args << input_filepath << "--plaintext" << output_filepath  << "-t" << "nca";
@@ -191,6 +191,6 @@ bool HacToolNet::plaintextNCA(const QString &input_filepath, const QString &outp
     process_exit(process, nullptr, ConsoleWrite);
     process.start(hactool_exe, args);
     process.waitForFinished(-1); // Synchronous    
-    return process.exitCode() == SUCCESS ? true : exit(last_error.isEmpty() ? "Failed to extract " + input_filepath
+    return process.exitCode() == SUCCESS ? true : exit(last_error.isEmpty() ? "提取失败 " + input_filepath
                                                                             : last_error + " (" + input_filepath + ")");
 }

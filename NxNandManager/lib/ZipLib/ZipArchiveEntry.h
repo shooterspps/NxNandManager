@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../res/progress_info.h"
 #include "detail/ZipLocalFileHeader.h"
 #include "detail/ZipCentralDirectoryFileHeader.h"

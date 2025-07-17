@@ -1,4 +1,4 @@
-#ifndef EMUNAND_H
+﻿#ifndef EMUNAND_H
 #define EMUNAND_H
 
 #include <QDialog>

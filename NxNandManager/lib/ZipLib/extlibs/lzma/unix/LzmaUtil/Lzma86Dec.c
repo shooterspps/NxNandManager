@@ -1,4 +1,4 @@
-/* Lzma86Dec.c -- LZMA + x86 (BCJ) Filter Decoder
+﻿/* Lzma86Dec.c -- LZMA + x86 (BCJ) Filter Decoder
 2008-04-07
 Igor Pavlov
 Public domain */

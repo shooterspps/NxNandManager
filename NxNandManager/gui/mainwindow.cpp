@@ -178,7 +178,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(WorkInProgress)
 	{
-		if(QMessageBox::question(this, "Warning", "Work in progress, are you sure you want to quit ?", QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
+		if(QMessageBox::question(this, "警告", "任务进行中, 是否确定退出 ?", QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
 		{
 			event->ignore();
 			return;
@@ -214,8 +214,8 @@ bool MainWindow::safe_closeInput()
     if (!input)
         return true;
 
-    if(input->is_vfs_mounted() && QMessageBox::question(this, "Warning",
-                "At least one partition is mounted as virtual disk.\nAre you sure you want to unmount & close input ?\n ",
+    if(input->is_vfs_mounted() && QMessageBox::question(this, "警告",
+                "至少有一个分区被挂载为虚拟磁盘.\n是否要卸载并关闭导入 ?\n ",
                 QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
         return false;
 
@@ -262,7 +262,7 @@ void MainWindow::Properties()
         else delete PropertiesDialog;
     }
     PropertiesDialog = new class Properties(this->input);
-    PropertiesDialog->setWindowTitle("Properties");
+    PropertiesDialog->setWindowTitle("属性");
     PropertiesDialog->show();
     PropertiesDialog->exec();
 }
@@ -270,7 +270,7 @@ void MainWindow::Properties()
 void MainWindow::openKeySet()
 {
     keysetDialog = new KeySetDialog(this);
-    keysetDialog->setWindowTitle("Configure keyset");
+    keysetDialog->setWindowTitle("配置密钥");
     keysetDialog->show();
     keysetDialog->exec();
 }
@@ -283,12 +283,12 @@ void MainWindow::openResizeDialog()
 
     if (input->isEncrypted() && (!input->isCryptoSet() || input->badCrypto()))
     {
-        QMessageBox::critical(nullptr,"Error", "Keys missing or invalid (use CTRL+K to set keys)");
+        QMessageBox::critical(nullptr,"错误", "密钥缺失或无效 (使用 CTRL+K 配置密钥)");
         return;
     }
 
     ResizeUserDialog = new ResizeUser(this, input);
-    ResizeUserDialog->setWindowTitle("Resize USER");
+    ResizeUserDialog->setWindowTitle("调整 USER");
     ResizeUserDialog->show();
     ResizeUserDialog->exec();
 }
@@ -306,7 +306,7 @@ void MainWindow::openEmunandDialog()
 void MainWindow::openDumpDialog(int partition)
 {
     DumpDialog = new Dump(this, input, partition);
-    DumpDialog->setWindowTitle("Advanced copy");
+    DumpDialog->setWindowTitle("高级复制");
     DumpDialog->show();
     //DumpDialog->exec();
 }
@@ -334,7 +334,7 @@ void MainWindow::openDebugDialog()
         else delete DebugDialog;
     }
     DebugDialog = new Debug(nullptr, isdebug);
-    DebugDialog->setWindowTitle("Debug console");
+    DebugDialog->setWindowTitle("调试控制台");
     DebugDialog->show();
     this->setFocus();
 }
@@ -344,9 +344,9 @@ void MainWindow::incognito()
 
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Icon::Warning);
-    msgBox.setText("Incognito will wipe out console unique id's and certificates from CAL0");
-    msgBox.setInformativeText("WARNING : Make sure you have a backup of PRODINFO partition in case you want to restore CAL0 in the future.\n"
-                              "\nDo you already have a backup and do you want to apply incognito now ?");
+    msgBox.setText("擦除序列号将擦除 CAL0 设备的唯一 ID 和 证书");
+    msgBox.setInformativeText("!!!警告!!! : 请确保已经备份 PRODINFO 分区用来随时还原 CAL0.\n"
+                              "请先备份 PRODINFO 然后选择 \"Yes\" 运行擦除.");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     int ret = msgBox.exec();
@@ -359,7 +359,7 @@ void MainWindow::incognito()
         if(ret < 0)
             error(ret);
         else
-            QMessageBox::information(nullptr,"Incognito","Incognito successfully applied.");
+            QMessageBox::information(nullptr,"擦除","运行擦除序列号成功.");
 
         //input->InitStorage();
     }
@@ -493,7 +493,7 @@ void MainWindow::restorePartition()
     selected_io = new NxStorage(fileName.toStdWString());
     if(!selected_io->isNxStorage())
     {
-        error(ERR_INPUT_HANDLE, "Not a valid Nx Storage");
+        error(ERR_INPUT_HANDLE, "不是有效的 Nx 存储");
         return;
     }
     selected_part = selected_io->getNxPartition(curPartition->type());
@@ -521,9 +521,9 @@ void MainWindow::restorePartition()
     }
 
     QString message;
-    message.append(QString("You are about to restore partition %1.\nAre you sure you want to continue ?").arg(QString(selected_part->partitionName().c_str())));
+    message.append(QString("您即将恢复分区 %1.\n是否确定继续 ?").arg(QString(selected_part->partitionName().c_str())));
 
-    if(QMessageBox::question(this, "Warning", message, QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
+    if(QMessageBox::question(this, "警告", message, QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
     {
         return;
     }
@@ -538,7 +538,7 @@ void MainWindow::restorePartition()
 
 void MainWindow::initButtons()
 {
-	ui->rawdump_button->setText("FULL DUMP");
+	ui->rawdump_button->setText("完全备份");
     if(!input->isNxStorage())
 	{
 		ui->rawdump_button->setEnabled(false);
@@ -661,18 +661,18 @@ void MainWindow::inputSet(NxStorage *storage)
     ui->fwversion_value->setStyleSheet("QLabel { color : #686868; }");
     ui->deviceid_value->setStyleSheet("QLabel { color : #686868; }");
     ui->fwversion_value->setStatusTip("");
-    ui->fwversion_value->setText("N/A");
+    ui->fwversion_value->setText("不适用");
     ui->deviceid_value->setStatusTip("");
-    ui->deviceid_value->setText("N/A");
+    ui->deviceid_value->setText("不适用");
 
 	initButtons();
 
     if(!input->isNxStorage())
 	{
-        QString message("Input file/drive is not a valid NX Storage."), buff;
+        QString message("导入的文件/驱动器不是有效的 NX 存储."), buff;
         if(input->b_MayBeNxStorage && input->size() <= 0xA0000000)
         {
-            message.append("\nMake sure the file name matches the partition's name.\nAccording to file size, file name could be :\n");
+            message.append("\n确保文件名与分区名一致.\n根据文件大小, 文件名可以是 :\n");
             for( NxPart part : NxPartArr)
             {
                 if(part.size == input->size()) {
@@ -683,8 +683,8 @@ void MainWindow::inputSet(NxStorage *storage)
             }
         }
         if(input->isSplitted())
-            message.append("\nFailed to locate GPT backup in splitted dump");
-		QMessageBox::critical(nullptr,"Error",message);
+            message.append("\n在分卷的备份中找不到 GPT");
+		QMessageBox::critical(nullptr,"错误",message);
 		return;
 	}
 
@@ -735,11 +735,11 @@ void MainWindow::inputSet(NxStorage *storage)
         int index = ui->partition_table->rowCount() - 1;
         ui->partition_table->setItem(index, 0, new QTableWidgetItem(QString(part->partitionName().c_str())));
         //ui->partition_table->setItem(index, 1, new QTableWidgetItem(GetReadableSize(part->size()).c_str()));
-        //ui->partition_table->setItem(index, 2, new QTableWidgetItem(part->isEncryptedPartition() ? "Yes" : "No"));
+        //ui->partition_table->setItem(index, 2, new QTableWidgetItem(part->isEncryptedPartition() ? "是" : "否"));
     }
     ui->partition_table->resizeColumnsToContents();
     ui->partition_table->resizeRowsToContents();
-    ui->partition_table->setStatusTip(tr("Right-click on partition to dump/restore to/from file."));
+    ui->partition_table->setStatusTip(tr("右键单击分区 备份/还原/文件."));
 
     if (ui->partition_table->rowCount())
         ui->partition_table->setCurrentIndex(ui->partition_table->model()->index(0, 0));
@@ -755,9 +755,9 @@ void MainWindow::inputSet(NxStorage *storage)
         if(nullptr != system)
         {
             if(system->badCrypto()) {
-                ui->fwversion_value->setText("BAD CRYPTO!");
+                ui->fwversion_value->setText("密钥损坏!");
                 ui->fwversion_value->setStyleSheet("QLabel { color : red; }");
-                ui->fwversion_value->setStatusTip("Error while decrypting content, wrong keys ? (CTRL+K to configure keyset)");
+                ui->fwversion_value->setStatusTip("解密内容时出错, 密钥错误 ? (CTRL+K 配置密钥)");
             }
             else {
 
@@ -782,22 +782,22 @@ void MainWindow::inputSet(NxStorage *storage)
                             }
                         }
                         if (!found) {
-                            ui->fwversion_value->setText("NOT FOUND!");
-                            ui->fwversion_value->setStatusTip("Unable to found fw version");
+                            ui->fwversion_value->setText("未找到!");
+                            ui->fwversion_value->setStatusTip("无法找到 fw 版本");
                         }
                     });
                 }
 
                 if (!search)
                 {
-                    ui->fwversion_value->setText("NOT FOUND!");
-                    ui->fwversion_value->setStatusTip("Unable to found fw version (CTRL+K to configure keyset)");
+                    ui->fwversion_value->setText("未找到!");
+                    ui->fwversion_value->setStatusTip("无法找到 fw 版本 (CTRL+K 配置密钥)");
                 }
-                else ui->fwversion_value->setText("Searching...");
+                else ui->fwversion_value->setText("搜索...");
 
             }
         }
-        else ui->fwversion_value->setText("N/A");
+        else ui->fwversion_value->setText("不适用");
     }
 
 
@@ -806,16 +806,16 @@ void MainWindow::inputSet(NxStorage *storage)
     else if (nullptr != cal0)
     {
         if(cal0->badCrypto()) {
-            ui->deviceid_value->setText("BAD CRYPTO!");
+            ui->deviceid_value->setText("密钥损坏!");
             ui->deviceid_value->setStyleSheet("QLabel { color : red; }");
-            ui->deviceid_value->setStatusTip("Error while decrypting content, wrong keys ? (CTRL+K to configure keyset)");
+            ui->deviceid_value->setStatusTip("解密内容时出错, 密钥错误 ? (CTRL+K 配置密钥)");
         }
         else {
-            ui->deviceid_value->setText("KEYSET NEEDED!");
-            ui->deviceid_value->setStatusTip("Unable to decrypt content (CTRL+K to configure keyset)");
+            ui->deviceid_value->setText("需要密钥!");
+            ui->deviceid_value->setStatusTip("无法解密内容 (CTRL+K 配置密钥)");
         }
     }
-    else ui->deviceid_value->setText("N/A");
+    else ui->deviceid_value->setText("不适用");
 
     ui->moreinfo_button->setEnabled(true);
 }
@@ -852,28 +852,28 @@ void MainWindow::on_partition_table_itemSelectionChanged()
     ui->partCustom1Btn->setEnabled(false);
 
     // Dump action
-    QAction* dumpAction = new QAction(dumpIcon, "Dump to file...");
-    dumpAction->setStatusTip(tr("Save as new file"));
+    QAction* dumpAction = new QAction(dumpIcon, "备份文件...");
+    dumpAction->setStatusTip(tr("新文件另存为"));
     ui->partition_table->connect(dumpAction, SIGNAL(triggered()), this, SLOT(dumpPartition()));
     ui->partition_table->addAction(dumpAction);    
 
     // Dump advanced action
-    QAction* dumpAAction = new QAction(dumpIcon, "Dump (advanced)");
-    dumpAAction->setStatusTip(tr("Dump - Advanced options"));
+    QAction* dumpAAction = new QAction(dumpIcon, "备份 (高级)");
+    dumpAAction->setStatusTip(tr("备份 - 高级选项"));
     ui->partition_table->connect(dumpAAction, SIGNAL(triggered()), this, SLOT(dumpPartitionAdvanced()));
     ui->partition_table->addAction(dumpAAction);
 
     // Restore action
-    QAction* restoreAction = new QAction(restoreIcon, "Restore from file...");
-    restoreAction->setStatusTip(tr("Open an existing file"));
+    QAction* restoreAction = new QAction(restoreIcon, "从文件还原...");
+    restoreAction->setStatusTip(tr("打开现有文件"));
     ui->partition_table->connect(restoreAction, SIGNAL(triggered()), this, SLOT(restorePartition()));
     ui->partition_table->addAction(restoreAction);
 
     // Decrypt action
     if(selected_part->isEncryptedPartition() && !selected_part->badCrypto())
     {
-        QAction* dumpDecAction = new QAction(encIcon, "Decrypt && dump to file...");
-        dumpDecAction->setStatusTip(tr("Save as new file"));
+        QAction* dumpDecAction = new QAction(encIcon, "解密和&备份文件...");
+        dumpDecAction->setStatusTip(tr("新文件另存为"));
         if(!bKeyset)
             dumpDecAction->setDisabled(true);
         ui->partition_table->connect(dumpDecAction, SIGNAL(triggered()), this, SLOT(dumpDecPartition()));
@@ -883,8 +883,8 @@ void MainWindow::on_partition_table_itemSelectionChanged()
     // Encrypt action
     if(selected_part->nxPart_info.isEncrypted && !selected_part->isEncryptedPartition())
     {
-        QAction* dumpEncAction = new QAction(decIcon, "Encrypt && dump to file...");
-        dumpEncAction->setStatusTip(tr("Save as new file"));
+        QAction* dumpEncAction = new QAction(decIcon, "加密和&备份文件...");
+        dumpEncAction->setStatusTip(tr("新文件另存为"));
         if(!bKeyset)
             dumpEncAction->setDisabled(true);
         ui->partition_table->connect(dumpEncAction, SIGNAL(triggered()), this, SLOT(dumpEncPartition()));
@@ -895,7 +895,7 @@ void MainWindow::on_partition_table_itemSelectionChanged()
     if (selected_part->type() == BOOT0 && input->isEristaBoot0)
     {
         ui->partition_table->setContextMenuPolicy(Qt::ActionsContextMenu);
-        QString statusTip(tr(input->autoRcm ? "Disable autoRCM" : "Enable AutoRCM"));
+        QString statusTip(tr(input->autoRcm ? "禁用 autoRCM" : "启用 AutoRCM"));
         QAction* action = new QAction(rcmIcon, statusTip);
         action->setStatusTip(statusTip);
         ui->partition_table->connect(action, SIGNAL(triggered()), this, SLOT(toggleAutoRCM()));
@@ -912,8 +912,8 @@ void MainWindow::on_partition_table_itemSelectionChanged()
     // Incognito action
     if (selected_part->type() == PRODINFO)
     {
-        QAction* incoAction = new QAction(incoIcon, "Apply incognito");
-        QString statusTip(tr("Wipe personnal information from PRODINFO"));
+        QAction* incoAction = new QAction(incoIcon, "应用擦除序列号");
+        QString statusTip(tr("擦除 PRODINFO 中的个人信息"));
         incoAction->setStatusTip(statusTip);
         ui->partition_table->connect(incoAction, SIGNAL(triggered()), this, SLOT(incognito()));
         ui->partition_table->addAction(incoAction);
@@ -929,8 +929,8 @@ void MainWindow::on_partition_table_itemSelectionChanged()
     // Format partition action
     if (selected_part->type() == USER || selected_part->type() == SYSTEM)
     {
-        QAction* formtAction = new QAction(formtIcon, "Format partition (FAT32)");
-        QString statusTip(tr("Erase all data on selected partition (quick format)"));
+        QAction* formtAction = new QAction(formtIcon, "分区格式化 (FAT32)");
+        QString statusTip(tr("删除所选分区所有数据 (快速格式化)"));
         formtAction->setStatusTip(statusTip);
         ui->partition_table->connect(formtAction, SIGNAL(triggered()), this, SLOT(formatPartition()));
         ui->partition_table->addAction(formtAction);
@@ -950,9 +950,9 @@ void MainWindow::on_partition_table_itemSelectionChanged()
 
     if(is_in(selected_part->type(), {USER, SYSTEM}))
     {
-        QString statusTip(tr("Explore partition (saves & installed titles)"));
+        QString statusTip(tr("搜索分区 (保存 & 已安装 titles)"));
         if (!selected_part->isGood())
-            statusTip.append(selected_part->crypto() ? " CRYPTO FAILED! WRONG KEYS" : " KEYSET MISSING! CTRL+K TO CONFIGURE KEYSET");
+            statusTip.append(selected_part->crypto() ? " CRYPTO 失败! 密钥错误" : " 密钥丢失! CTRL+K 配置密钥");
 
         auto explorer_button = new QPushButton(this);
         explorer_button->setObjectName("explorer_button");
@@ -965,7 +965,7 @@ void MainWindow::on_partition_table_itemSelectionChanged()
             explorer_button->setDisabled(true);
         ui->horizontalLayout_2->insertWidget(ui->horizontalLayout_2->count()-1, explorer_button);
 
-        QAction* explAction = new QAction(explorerIcon, "Explore partition");
+        QAction* explAction = new QAction(explorerIcon, "搜索分区");
         explAction->setStatusTip(statusTip);
         ui->partition_table->connect(explAction, &QAction::triggered, this, &MainWindow::openExplorer);
         ui->partition_table->addAction(explAction);
@@ -992,7 +992,7 @@ void MainWindow::on_partition_table_itemSelectionChanged()
         ui->horizontalLayout_2->insertWidget(ui->horizontalLayout_2->count()-1, button);
 
         button->setIcon(selected_part->is_vfs_mounted() ? unmountIcon : mountIcon);
-        QString label = selected_part->is_vfs_mounted() ? "Unmount" : "Mount";
+        QString label = selected_part->is_vfs_mounted() ? "弹出" : "挂载";
         if(selected_part->is_vfs_mounted())
         {
             WCHAR mountPoint[3] = L" \0";
@@ -1000,11 +1000,11 @@ void MainWindow::on_partition_table_itemSelectionChanged()
             label.append(" (" + QString::fromStdWString(mountPoint).toUpper() + ":)");
         }
 
-        QString statusTip(selected_part->is_vfs_mounted() ? "Unmount virtual disk" : "Mount partition as virtual disk (virtual filesystem)");
+        QString statusTip(selected_part->is_vfs_mounted() ? "弹出虚拟磁盘" : "将分区挂载为虚拟磁盘 (虚拟文件系统)");
         if (selected_part->isEncryptedPartition() && (selected_part->badCrypto() || !selected_part->crypto()))
         {
             button->setDisabled(true);
-            statusTip = selected_part->crypto() ? "CRYPTO FAILED! WRONG KEYS" : "KEYSET MISSING! CTRL+K TO CONFIGURE KEYSET";
+            statusTip = selected_part->crypto() ? "密钥出错! 密钥错误" : "密钥丢失! CTRL+K 配置密钥";
         }
         else
         {
@@ -1019,8 +1019,8 @@ void MainWindow::on_partition_table_itemSelectionChanged()
             ui->partition_table->addAction(mountAction);
 
             if (!selected_part->is_vfs_mounted()) {
-                QAction* quickMountAction = new QAction(mountIcon, "Quick mount");
-                quickMountAction->setStatusTip("Quick mount");
+                QAction* quickMountAction = new QAction(mountIcon, "快速挂载");
+                quickMountAction->setStatusTip("快速挂载");
                 ui->partition_table->connect(quickMountAction, &QAction::triggered, [=]() {
                     if (m_vfsRunner != nullptr)
                         delete m_vfsRunner;
@@ -1029,7 +1029,7 @@ void MainWindow::on_partition_table_itemSelectionChanged()
                     VfsMountRunner runner(selected_part);
                     connect(m_vfsRunner, &VfsMountRunner::error, this, &MainWindow::error);
                     connect(m_vfsRunner, &VfsMountRunner::mounted, [=](){
-                        QMessageBox::information(this, "Success", QString("Partition mounted (%1).").arg(m_vfsRunner->mounPoint()));
+                        QMessageBox::information(this, "成功", QString("挂载的分区 (%1).").arg(m_vfsRunner->mounPoint()));
                         on_partition_table_itemSelectionChanged();
                     });
                     m_vfsRunner->run();
@@ -1073,76 +1073,76 @@ void MainWindow::on_partition_table_itemSelectionChanged()
             break;
         case FAT32 : fs = "FAT32";
             break;
-        default : fs = "None (RAW)";
+        default : fs = "无 (RAW)";
     }
-    addItem("Filesystem:", fs);
-    addItem(selected_part->availableTotSpace ? "RAW size:" : "Size:",
+    addItem("文件系统:", fs);
+    addItem(selected_part->availableTotSpace ? "RAW 大小:" : "大小:",
             QString::fromStdString(GetReadableSize(selected_part->size())));
     if (selected_part->availableTotSpace)
     {
-        addItem("Avail. space:", QString::fromStdString(GetReadableSize(selected_part->availableTotSpace)));
-        addItem("Free. space:", QString::fromStdString(GetReadableSize(selected_part->freeSpace)));
+        addItem("可用空间:", QString::fromStdString(GetReadableSize(selected_part->availableTotSpace)));
+        addItem("空闲空间:", QString::fromStdString(GetReadableSize(selected_part->freeSpace)));
     }
-    addItem("First sector:", QString::number(selected_part->lbaStart())
+    addItem("起始扇区:", QString::number(selected_part->lbaStart())
                              + " (" + QString::fromStdString(int_to_hex(selected_part->lbaStart()) + ")"));
-    addItem("Last sector:", QString::number(selected_part->lbaEnd()) + " ("
+    addItem("最后扇区:", QString::number(selected_part->lbaEnd()) + " ("
                             + QString::fromStdString(int_to_hex(selected_part->lbaEnd()) + ")"));
-    addItem("Encrypted:", selected_part->isEncryptedPartition() ? "Yes" : "No");
+    addItem("加密:", selected_part->isEncryptedPartition() ? "是" : "否");
 
     if (selected_part->type() == BOOT0)
     {
-        addItem("Soc revision:", input->isEristaBoot0 ? "Erista" : "Unknown (Mariko ?)");
+        addItem("Soc 修订:", input->isEristaBoot0 ? "Erista" : "未知 (Mariko ?)");
         if (input->isEristaBoot0)
         {
-            addItem("AutoRCM:", input->autoRcm ? "Enabled" : "Disabled");
-            addItem("Bootloader ver.:", QString::number(input->bootloader_ver));
+            addItem("AutoRCM:", input->autoRcm ? "启用" : "禁用");
+            addItem("Bootloader 版本:", QString::number(input->bootloader_ver));
         }
     }
     QString info;
     switch (selected_part->type())
     {
     case BOOT0:
-        info = "- BCT - first bootloader (package1ldr)\n- second bootloader (package1)\n- TrustZone code";
+        info = "- BCT - 第一个 bootloader (package1ldr)\n- 第二个 bootloader (package1)\n- TrustZone code";
         break;
     case BOOT1:
-        info = "Contains safe mode package1 (cf. BOOT0)";
+        info = "包含 safe mode package1 (参照 BOOT0)";
         break;
     case PRODINFO:
-        info = "CAL0. Raw binary blob containing the main calibration data, which ranges from hardware IDs to system keys";
+        info = "CAL0. 包含主要校准数据的原始二进制 blob, 其中包括硬件ID, 系统密钥";
         break;
     case PRODINFOF:
-        info = "Contains additional calibration data.";
+        info = "包含额外的校准数据.";
         break;
     case BCPKG21:
-        info = "- BootConfig\n- Switch kernel & sysmodules";
+        info = "- BootConfig\n- Switch 内核 & 系统模块";
         break;
     case BCPKG22:
-        info = "Backup partition for BCPKG2-1-Normal-Main";
+        info = "备份分区为 BCPKG2-1-Normal-Main";
         break;
     case BCPKG23:
-        info = "Contains safe mode package2";
+        info = "包含 safe mode package2";
         break;
     case BCPKG24:
-        info = "Backup partition for BCPKG2-3-SafeMode-Main";
+        info = "备份分区为 BCPKG2-3-SafeMode-Main";
         break;
     case BCPKG25:
-        info = "Installed at the factory, never written afterwards on retail";
+        info = "安装于工厂, 之后从未用于零售";
         break;
     case BCPKG26:
-        info = "Backup partition for BCPKG2-5-Repair-Main";
+        info = "备份分区为 BCPKG2-5-Repair-Main";
         break;
     case SAFE:
-        info = "The official name for this partition is \"SafeMode\"";
+        info = "这个分区的正式名称是 \"SafeMode\"";
         break;
     case SYSTEM:
-        info = "- system titles (applications)\n- saves for system titles";
+        info = "- 系统 titles (应用程序)\n- 保存为系统 titles";
         break;
     case USER:
-        info = "- non-system titles (games, applications)\n- saves for non-system titles";
+        info = "- 非系统 titles (游戏, 应用程序)\n- 保存为非系统 titles";
         break;
 
     }
-    addItem("Description:\n" + info);
+    addItem("说明:\n" + info);
 }
 
 void MainWindow::driveSet(QString drive)
@@ -1176,7 +1176,7 @@ void MainWindow::openExplorer()
         return;
 
     ExplorerDialog = new Explorer(this, curPartition);
-    //ExplorerDialog->setWindowTitle("Explorer");
+    //ExplorerDialog->setWindowTitle("浏览");
     ExplorerDialog->show();
     ExplorerDialog->exec();
     delete ExplorerDialog;
@@ -1189,7 +1189,7 @@ void MainWindow::error(int err, QString label)
 	{
 		if(label != nullptr)
 		{
-            QMessageBox::critical(nullptr,"Error", label);
+            QMessageBox::critical(nullptr,"错误", label);
 			return;
 		}
 	}
@@ -1197,12 +1197,12 @@ void MainWindow::error(int err, QString label)
 	for (int i=0; i < (int)array_countof(ErrorLabelArr); i++)
 	{
 		if(ErrorLabelArr[i].error == err) {
-            QMessageBox::critical(nullptr,"Error", QString(ErrorLabelArr[i].label));
+            QMessageBox::critical(nullptr,"错误", QString(ErrorLabelArr[i].label));
 			return;
 		}
 	}
 
-    QMessageBox::critical(nullptr,"Error","Error " + QString::number(err));
+    QMessageBox::critical(nullptr,"错误","错误 " + QString::number(err));
 }
 
 
@@ -1219,7 +1219,7 @@ void MainWindow::on_fullrestore_button_clicked()
 
     if(!selected_io->isNxStorage())
     {
-        error(ERR_INPUT_HANDLE, "Not a valid Nx Storage");
+        error(ERR_INPUT_HANDLE, "不是有效的 Nx 存储");
         return;
     }
 
@@ -1236,8 +1236,8 @@ void MainWindow::on_fullrestore_button_clicked()
     }
     */
     QString message;
-    message.append("You are about to restore to an existing " + QString(input->isDrive() ? "drive" : "file") + "\nAre you sure you want to continue ?");
-    if(QMessageBox::question(this, "Warning", message, QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
+    message.append("您即将还原到现有状态 " + QString(input->isDrive() ? "驱动器" : "文件") + "\n是否确定继续 ?");
+    if(QMessageBox::question(this, "警告", message, QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
         return;
 
     //WorkParam_t param;
@@ -1281,16 +1281,16 @@ void MainWindow::toggleAutoRCM()
 {
 	bool pre_autoRcm = input->autoRcm;
 
-    if(input->type == RAWMMC && !pre_autoRcm && QMessageBox::question(this, "Warning", "Be aware that activating autoRCM on emuNAND will be inoperant since it only works on sysNAND.\nAre you sure you want to continue ?", QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
+    if(input->type == RAWMMC && !pre_autoRcm && QMessageBox::question(this, "警告", "请注意, 无法在虚拟系统上激活 autoRCM, 因为它只在 sysNAND 上工作.\n是否确定继续 ?", QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
     {
-        QMessageBox::information(this, "Information", "Operation canceled");
+        QMessageBox::information(this, "信息", "已取消");
         return;
     }
 
     if(!input->setAutoRcm(input->autoRcm ? false : true))
-		QMessageBox::critical(nullptr,"Error", "Error while toggling autoRCM");
+		QMessageBox::critical(nullptr,"错误", "切换 autoRCM 时出错");
     else {
-		QMessageBox::information(this, "Success", "AutoRCM is "  + QString(input->autoRcm ? "enabled" : "disabled"));
+		QMessageBox::information(this, "成功", "AutoRCM 已"  + QString(input->autoRcm ? "启用" : "禁用"));
         qApp->processEvents();
         beforeInputSet();
         QString filename = QString::fromWCharArray(input->m_path);
@@ -1315,21 +1315,21 @@ void MainWindow::formatPartition()
     if (nullptr == curPartition)
         return;
 
-    auto text = QString("Formatting will erase all data on %1.")
+    auto text = QString("格式化将删除 %1 的所有数据.")
             .arg(QString::fromStdString(curPartition->partitionName()));
     if (curPartition->is_vfs_mounted())
-        text.append(QString("\nVirtual disk (%1) will be unmounted first.")
+        text.append(QString("\n虚拟磁盘 (%1) 将首先被卸载.")
                     .arg(QString::fromStdWString(curPartition->vfs()->mount_point).toUpper()));
-    text.append("\nAre you sure you want to continue ?");
+    text.append("\n是否确定继续 ?");
 
-    if(QMessageBox::question(this, "Warning", text, QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
+    if(QMessageBox::question(this, "警告", text, QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
         return;
 
     auto res = curPartition->formatPartition();
     if (res)
-        QMessageBox::critical(this, "Error", "Failed to format partition");
+        QMessageBox::critical(this, "错误", "格式化分区失败");
     else
-        QMessageBox::information(this, "Information", "Partition formated");
+        QMessageBox::information(this, "信息", "分区形成");
 
     // Reopen NxStorage
     beforeInputSet();
@@ -1394,7 +1394,7 @@ void MainWindow::on_mountParition(int nx_type, const wchar_t &mount_point)
         return exit(ERR_IN_PART_NOT_FOUND);
 
     if (mount_button)
-        mount_button->setText(nxp->is_vfs_mounted() ? "Unmounting..." : "Mounting...");
+        mount_button->setText(nxp->is_vfs_mounted() ? "弹出中..." : "挂载中...");
 
     // Unmount
     if(nxp->is_vfs_mounted())
@@ -1424,16 +1424,16 @@ void MainWindow::mountContextMenu()
 
     auto mount_points = GetAvailableMountPoints();
     if (!mount_points.size())
-        emit error(1, "Failed to find any available mount point");
+        emit error(1, "未找到任何可用的挂载目录");
 
-    QMenu contextMenu("Mount partition", this);
-    QAction action1(QString("Auto. mount point (%1:)").arg(QString(mount_points.at(0)).toUpper()), this);
+    QMenu contextMenu("挂载分区", this);
+    QAction action1(QString("自动. 挂载点 (%1:)").arg(QString(mount_points.at(0)).toUpper()), this);
     connect(&action1, &QAction::triggered, [&]() {
         on_mountParition(selected_part->type(), mount_points.at(0));
     });
     contextMenu.addAction(&action1);
 
-    auto subContextMenu = contextMenu.addMenu("Choose mount point");
+    auto subContextMenu = contextMenu.addMenu("选择挂载目录");
     for (const auto mount_point : mount_points)
     {
         auto action = QString(mount_point).toUpper() + ":";
@@ -1444,7 +1444,7 @@ void MainWindow::mountContextMenu()
         subContextMenu->addAction(subAction);
     }
     contextMenu.addSeparator();
-    QAction readOnlyAction("Mount as read only", this);
+    QAction readOnlyAction("挂载为只读", this);
     readOnlyAction.setCheckable(true);
     readOnlyAction.setChecked(m_isMountOptionReadOnly);
     connect(&readOnlyAction, &QAction::triggered, [&]() {
@@ -1456,7 +1456,7 @@ void MainWindow::mountContextMenu()
 
 void MainWindow::dokanDriver_install()
 {
-    if(QMessageBox::question(nullptr, "Error", "Dokan driver not found\nDo you want to proceed with installation ?",
+    if(QMessageBox::question(nullptr, "错误", "未找到 Dokan 驱动程序\n是否继续安装 ?",
              QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
     {
         int res = installDokanDriver();

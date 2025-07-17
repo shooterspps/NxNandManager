@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "zh_CN" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "zh_CN" ]
   workflow_dispatch:
 jobs:
   build:
@@ -28,7 +28,40 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/bin
           cp release/NxNandManager.exe $GITHUB_WORKSPACE/bin
           cp ../virtual_fs/dokan/x64/dokan1.dll $GITHUB_WORKSPACE/bin
+      - name: Create zip archive
+        run: |
+          cd bin
+          zip -r ../NxNandManager.zip *
       - uses: actions/upload-artifact@v4
         with:
           name: NxNandManager
           path: bin/*
+
+      - name: delete release
+        uses: dev-drprasad/delete-tag-and-release@v1.1
+        with:
+          tag_name: new
+          delete_release: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: latest version
+          tag_name: new
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload Release Asset
+        id: upload-release-asset-zip 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./NxNandManager.zip
+          asset_name: NxNandManager.zip
+          asset_content_type: application/zip

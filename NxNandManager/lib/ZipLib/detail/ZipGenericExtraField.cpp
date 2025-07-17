@@ -1,4 +1,4 @@
-#include "ZipGenericExtraField.h"
+﻿#include "ZipGenericExtraField.h"
 #include "../streams/serialization.h"
 
 namespace detail {

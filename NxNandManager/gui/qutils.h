@@ -1,4 +1,4 @@
-#ifndef QUTILS_H
+﻿#ifndef QUTILS_H
 #define QUTILS_H
 
 #include <QWidget>

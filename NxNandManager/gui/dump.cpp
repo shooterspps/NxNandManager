@@ -1,4 +1,4 @@
-#include "dump.h"
+﻿#include "dump.h"
 #include "ui_dump.h"
 
 Dump::Dump(QWidget *parent, NxStorage* input, int in_part) :
@@ -68,7 +68,7 @@ void Dump::on_selectOutputBtn_clicked()
 {
     QSettings MySettings;
     QFileDialog fd(this);
-    QString fileName = fd.getSaveFileName(this, "Save as", "default_dir\\" + ui->inTypeValue->text() + ".bin");
+    QString fileName = fd.getSaveFileName(this, "另存为", "default_dir\\" + ui->inTypeValue->text() + ".bin");
 
     if (!fileName.isEmpty())
     {
@@ -153,7 +153,7 @@ void Dump::on_pushButton_clicked()
 {
     if (!ui->outPathValue->text().length())
     {
-        QMessageBox::critical(nullptr,"Error","Path to output file is missing");
+        QMessageBox::critical(nullptr,"错误","无效的文件导出路径");
         return;
     }
 
@@ -162,12 +162,12 @@ void Dump::on_pushButton_clicked()
         QFile outFile(ui->outPathValue->text());
         if (outFile.exists() && !outFile.remove())
         {
-            QMessageBox::critical(nullptr,"Error","Failed to delete output file");
+            QMessageBox::critical(nullptr,"错误","导出文件删除失败");
             return;
         }
         if (!outFile.open(QIODevice::WriteOnly))
         {
-            QMessageBox::critical(nullptr,"Error","Failed to create output file");
+            QMessageBox::critical(nullptr,"错误","Failed to create output file");
             return;
         } else
         outFile.close();

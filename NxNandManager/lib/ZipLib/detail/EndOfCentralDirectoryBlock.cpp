@@ -1,4 +1,4 @@
-#include "EndOfCentralDirectoryBlock.h"
+﻿#include "EndOfCentralDirectoryBlock.h"
 #include "../streams/serialization.h"
 #include <cstring>
 

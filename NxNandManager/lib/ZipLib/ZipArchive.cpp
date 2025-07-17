@@ -1,4 +1,4 @@
-#include "ZipArchive.h"
+﻿#include "ZipArchive.h"
 #include "streams/serialization.h"
 #include <algorithm>
 #include <cassert>

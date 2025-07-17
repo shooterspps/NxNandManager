@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../compression_interface.h"
 
 #include "deflate_decoder_properties.h"

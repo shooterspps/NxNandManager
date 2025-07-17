@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Progress</class>
- <widget class="QDialog" name="Progress">
+ <widget class="QDialog" name="进度">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -20,7 +20,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Work in progress...</string>
+   <string>正在进行中...</string>
   </property>
   <property name="modal">
    <bool>true</bool>

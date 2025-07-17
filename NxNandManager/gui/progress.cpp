@@ -1,4 +1,4 @@
-#include "progress.h"
+﻿#include "progress.h"
 #include "ui_progress.h"
 #include "mainwindow.h"
 #include <QTextStream>
@@ -12,7 +12,7 @@ Progress::Progress(QWidget *parent, NxStorage *workingStorage) :
     this->setVisible(false);
     this->setWindowFlag(Qt::Popup);
     //this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    this->setWindowTitle("Progress");
+    this->setWindowTitle("进度");
 
     ui->progressBar1->setFormat("");
     ui->progressBar2->setFormat("");
@@ -54,13 +54,13 @@ void Progress::timer1000()
         //elapsed time
 
         std::chrono::duration<double> elapsed_seconds = time - m_begin_time;
-        label.append("Elapsed time: " + QString(GetReadableElapsedTime(elapsed_seconds).c_str()));
+        label.append("已用时间: " + QString(GetReadableElapsedTime(elapsed_seconds).c_str()));
 
         //Remaining time
         if(!b_done && !b_simpleProgress && m_remaining_time >= time)
         {
             std::chrono::duration<double> remaining_seconds = m_remaining_time - time;
-            label.append(" / Remaining: " + QString(GetReadableElapsedTime(remaining_seconds).c_str()));
+            label.append(" / 剩余时间: " + QString(GetReadableElapsedTime(remaining_seconds).c_str()));
         }
         ui->elapsed_time_label->setText(label);
         b_done = false;
@@ -87,7 +87,7 @@ void Progress::timer1000()
 
         m_bytesProcessedPerSecond = m_bytesProcessedPerSecond / m_l_bytesProcessedPerSecond.size();
 
-        ui->transfertRateLbl->setText("Transfer rate: " + (m_bytesProcessedPerSecond ? QString::fromStdString(GetReadableSize(m_bytesProcessedPerSecond)) : QString("0b")) + "/s");
+        ui->transfertRateLbl->setText("传输速度: " + (m_bytesProcessedPerSecond ? QString::fromStdString(GetReadableSize(m_bytesProcessedPerSecond)) : QString("0b")) + "/s");
 
     }
     else
@@ -164,15 +164,15 @@ void Progress::updateProgress(const ProgressInfo pi)
         {
             // Default label
             label.append(pi.storage_name);
-            if (pi.mode == MD5_HASH) label.append(" dumped & verified");
-            else if (pi.mode == RESTORE) label.append(" restored");
-            else if (pi.mode == RESIZE) label.append(" resized");
-            else if (pi.mode == CREATE) label.append(" created");
-            else if (pi.mode == ZIP) label.append(pi.isSubProgressInfo ? " zipped" : " archived");
-            else if (pi.mode == FORMAT) label.append(" formatted");
-            else if (pi.mode == EXTRACT) label.append(" extracted");
-            else if (pi.mode == DECRYPT) label.append(" decrypted");
-            else label.append(" dumped");
+            if (pi.mode == MD5_HASH) label.append(" 备份 & 校验完成");
+            else if (pi.mode == RESTORE) label.append(" 还原完成");
+            else if (pi.mode == RESIZE) label.append(" 调整完成");
+            else if (pi.mode == CREATE) label.append(" 创建完成");
+            else if (pi.mode == ZIP) label.append(pi.isSubProgressInfo ? " zip 完成" : " 压缩完成");
+            else if (pi.mode == FORMAT) label.append(" 格式化完成");
+            else if (pi.mode == EXTRACT) label.append(" 提取完成");
+            else if (pi.mode == DECRYPT) label.append(" 解密完成");
+            else label.append(" 备份完成");
             if (!b_simpleProgress)
                 label.append(" (").append(GetReadableSize(pi.bytesTotal).c_str()).append(")");
         }
@@ -197,15 +197,15 @@ void Progress::updateProgress(const ProgressInfo pi)
         if (!(pi.isSubProgressInfo && b_simpleProgress))
         {
             // Default label
-            if (pi.mode == MD5_HASH) label.append("Computing hash for ");
-            else if (pi.mode == RESTORE) label.append("Restoring to ");
-            else if (pi.mode == RESIZE) label.append("Resizing ");
-            else if (pi.mode == CREATE) label.append("Creating ");
-            else if (pi.mode == FORMAT) label.append("Formatting ");
-            else if (pi.mode == ZIP) label.append(pi.isSubProgressInfo ? "Archiving " : "Creating archive ");
-            else if (pi.mode == EXTRACT) label.append("Extracting from ");
-            else if (pi.mode == DECRYPT) label.append("Decrypting ");
-            else label.append("Copying ");
+            if (pi.mode == MD5_HASH) label.append("计算哈希值 ");
+            else if (pi.mode == RESTORE) label.append("还原为 ");
+            else if (pi.mode == RESIZE) label.append("调整大小");
+            else if (pi.mode == CREATE) label.append("正在创建 ");
+            else if (pi.mode == FORMAT) label.append("正在格式化 ");
+            else if (pi.mode == ZIP) label.append(pi.isSubProgressInfo ? "正在压缩 " : "正在创建压缩 ");
+            else if (pi.mode == EXTRACT) label.append("正在提取 ");
+            else if (pi.mode == DECRYPT) label.append("正在解密 ");
+            else label.append("正在复制 ");
             label.append(pi.storage_name);
             if (!b_simpleProgress) {
                 label.append("... ").append(GetReadableSize(pi.bytesCount).c_str());
@@ -265,7 +265,7 @@ void Progress::reject()
 {
     if (m_isRunning)
     {
-        if(QMessageBox::question(this, "Warning", "Work is in progress. Do you really want to quit ?\nConfirm to abort, cancel to keep current work running.", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+        if(QMessageBox::question(this, "警告", "确认中止, 取消当前进行的任务.\n任务正在进行中. 是否确认退出 ?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
         {
             if (nullptr != m_workingStorage)
             {
@@ -287,7 +287,7 @@ void Progress::error(int err, QString label)
     m_isRunning = false;
     if(label != nullptr)
     {
-        QMessageBox::critical(nullptr,"Error", label);
+        QMessageBox::critical(nullptr,"错误", label);
         this->reject();
         return;
     }
@@ -295,12 +295,12 @@ void Progress::error(int err, QString label)
     for (int i=0; i < (int)array_countof(ErrorLabelArr); i++)
     {
         if(ErrorLabelArr[i].error == err) {
-            QMessageBox::critical(nullptr,"Error", QString(ErrorLabelArr[i].label));
+            QMessageBox::critical(nullptr,"错误", QString(ErrorLabelArr[i].label));
             this->reject();
             return;
         }
     }
-    QMessageBox::critical(nullptr,"Error","Error " + QString::number(err));
+    QMessageBox::critical(nullptr,"错误","错误 " + QString::number(err));
 }
 void Progress::on_WorkFinished()
 {

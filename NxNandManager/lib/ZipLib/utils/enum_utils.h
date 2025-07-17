@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <cstdint>
 
 #define MARK_AS_TYPED_ENUMFLAGS_BASE(EnumType, type, friend)                                                        \

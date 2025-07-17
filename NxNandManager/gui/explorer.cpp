@@ -1,4 +1,4 @@
-#include "explorer.h"
+﻿#include "explorer.h"
 #include "ui_explorer.h"
 #include <QFile>
 #include <QtConcurrent/QtConcurrent>
@@ -124,15 +124,15 @@ QVariant ExplorerModel::headerData(int section, Qt::Orientation orientation, int
         switch (getColumnType(section))
         {
         case FileColumn:
-            return QString("File");
+            return QString("文件");
         case SizeColumn:
-            return QString("Size");
+            return QString("大小");
         case TitleColumn:
             return QString("Title");
         case TypeColumn:
-            return QString("Type");
+            return QString("类型");
         case UserColumn:
-            return QString("User");
+            return QString("用户");
         default:
             return QVariant();
         }
@@ -414,13 +414,13 @@ Explorer::Explorer(QWidget *parent, NxPartition *partition) :
     ui->loadingLabel->hide();
 
     if (m_partition->type() == USER) {
-        ui->currentDir_combo->addItem("/save (Saves)", "/save");
-        ui->currentDir_combo->addItem("/Contents/registered (Installed titles)", "/Contents/registered");
+        ui->currentDir_combo->addItem("/save (存档)", "/save");
+        ui->currentDir_combo->addItem("/Contents/registered (已安装 titles)", "/Contents/registered");
     } else {
-        ui->currentDir_combo->addItem("/Contents/registered (Installed titles)", "/Contents/registered");
-        ui->currentDir_combo->addItem("/save (Saves)", "/save");
+        ui->currentDir_combo->addItem("/Contents/registered (已安装 titles)", "/Contents/registered");
+        ui->currentDir_combo->addItem("/save (存档)", "/save");
     }
-    ui->currentDir_combo->addItem("/Contents/placehld (Downloaded titles)", "/Contents/placehld");
+    ui->currentDir_combo->addItem("/Contents/placehld (已下载 titles)", "/Contents/placehld");
 }
 
 Explorer::~Explorer()
@@ -443,18 +443,18 @@ void Explorer::error(int err, QString label)
 {
     if(label != nullptr)
     {
-        QMessageBox::critical(nullptr,"Error", label);
+        QMessageBox::critical(nullptr,"错误", label);
         return;
     }
 
     for (int i=0; i < (int)array_countof(ErrorLabelArr); i++)
     {
         if(ErrorLabelArr[i].error == err) {
-            QMessageBox::critical(nullptr,"Error", QString(ErrorLabelArr[i].label));
+            QMessageBox::critical(nullptr,"错误", QString(ErrorLabelArr[i].label));
             return;
         }
     }
-    QMessageBox::critical(nullptr,"Error","Error " + QString::number(err));
+    QMessageBox::critical(nullptr,"错误","错误 " + QString::number(err));
 }
 
 void Explorer::loadingWdgtSetVisible(bool visible)
@@ -479,7 +479,7 @@ void Explorer::askForVfsMount(std::function<void()> callback, const QString &que
     });
     emit loadingWdgtSetVisible(true);    
     m_vfsRunner->run(!question.isEmpty() ? question :
-            "Partition needs to be mounted as virtual disk (+ virtual FS).\n Click 'Yes' to mount partition.");
+            "分区需要被挂载为虚拟磁盘 (+ 虚拟 FS).\n 点击 '是' 来挂载分区.");
     return;
 }
 
@@ -645,7 +645,7 @@ void Explorer::do_copy(CpyQueue queue)
     pi.begin_time = chrono::system_clock::now();
     for (auto it : queue)
         pi.bytesTotal += it.nxFile->size();
-    strcpy_s(pi.storage_name, moreThan1File ? QString("%1 files").arg(queue.count()).toStdString().c_str()
+    strcpy_s(pi.storage_name, moreThan1File ? QString("%1 文件").arg(queue.count()).toStdString().c_str()
                                             : QFileInfo(queue.at(0).destination).fileName().toStdString().c_str());
     emit sendProgress(pi);
 
@@ -655,11 +655,11 @@ void Explorer::do_copy(CpyQueue queue)
         if (isdebug) dbg_wprintf(L"Explorer::do_copy() dequeue %ls\n", item.source.toStdWString().c_str());
 
         if (!item.nxFile->open())
-            return exit("Failed to open " + QString::fromStdWString(item.nxFile->completePath()));
+            return exit("打开失败 " + QString::fromStdWString(item.nxFile->completePath()));
 
         QFile out_file(item.destination);
         if (!out_file.open(QIODevice::WriteOnly))
-            return exit("Failed to open for writing " + item.destination, item.nxFile);
+            return exit("打开写入失败 " + item.destination, item.nxFile);
 
         ProgressInfo spi;
         spi.isSubProgressInfo = true;
@@ -673,7 +673,7 @@ void Explorer::do_copy(CpyQueue queue)
         while (!item.nxFile->read((void*)buffer, buff_size, &br) && br)
         {
             if ((bw = out_file.write((const char*)buffer, (qint64)br)) < 0)
-                return exit("Failed to write to " + item.destination, item.nxFile);
+                return exit("写入失败 " + item.destination, item.nxFile);
 
             pi.bytesCount += (u64)bw;
             spi.bytesCount += (u64)bw;
@@ -702,7 +702,7 @@ void Explorer::do_extractFS_Hactool(CpyQueue queue)
     pi.begin_time = chrono::system_clock::now();
 
     if (!pi.bytesTotal)
-        return exit("No file to extract");
+        return exit("没有文件可提取");
 
     QString errors;
     u32 good_count = 0;
@@ -720,7 +720,7 @@ void Explorer::do_extractFS_Hactool(CpyQueue queue)
         });
 
         if (!m_hactool.extractFiles(entry.source, file->isNCA() ? HacToolNet::Nca : HacToolNet::Save, cur_des))
-            errors.append(m_hactool.lastError().isEmpty() ? "Hactoolnet : failed to extract file " + entry.source
+            errors.append(m_hactool.lastError().isEmpty() ? "Hactoolnet : 提取文件失败 " + entry.source
                                                          :  m_hactool.lastError() + "\n");
         else good_count++;
 
@@ -729,7 +729,7 @@ void Explorer::do_extractFS_Hactool(CpyQueue queue)
     }
 
 
-    sprintf(pi.storage_name, "from %d file%s", good_count, good_count>1 ? "s" : "");
+    sprintf(pi.storage_name, "从 %d 文件%s", good_count, good_count>1 ? "" : "");
     emit sendProgress(pi);
 
     return exit(errors);
@@ -756,7 +756,7 @@ void Explorer::do_extractFS(CpyQueue queue)
         file_count++;
     }
     pi.begin_time = chrono::system_clock::now();
-    sprintf(pi.storage_name, "%d files", file_count);
+    sprintf(pi.storage_name, "%d 文件", file_count);
     emit sendProgress(pi);
 
     while (!queue.isEmpty())  // Process queue
@@ -771,7 +771,7 @@ void Explorer::do_extractFS(CpyQueue queue)
             QString cur_dest = explicitOutputPathForNxFile(item.nxFile);
 
             if (!EnsureOutputDir(cur_dest))
-                return exit(QString("Failed to create dir %1").arg(cur_dest));
+                return exit(QString("创建目录 %1 失败").arg(cur_dest));
 
             // Avoid duplicating slashes
             string file_path(file.completePath());
@@ -787,10 +787,10 @@ void Explorer::do_extractFS(CpyQueue queue)
             QString out_dir = QFileInfo(out_file).absolutePath();
 
             if (!EnsureOutputDir(out_dir))
-                return exit(QString("Failed to create dir %1").arg(out_dir));
+                return exit(QString("创建目录 %1 失败").arg(out_dir));
 
             if (!out_file.open(QIODevice::WriteOnly))
-                return exit(QString("Failed to open file for writing: %1").arg(cur_dest));
+                return exit(QString("打开文件写入失败: %1").arg(cur_dest));
 
             ProgressInfo spi;
             spi.mode = EXTRACT;
@@ -804,7 +804,7 @@ void Explorer::do_extractFS(CpyQueue queue)
             while (spi.bytesCount < spi.bytesTotal && (br = save.readSaveFile(file, buffer, spi.bytesCount, buff_size)) > 0)
             {
                 if ((bw = out_file.write((const char*)buffer, (qint64)br)) < 0)
-                    return exit(QString("Failed to write file: %1").arg(cur_dest));
+                    return exit(QString("写入文件失败: %1").arg(cur_dest));
 
                 pi.bytesCount += (u64)bw;
                 emit sendProgress(pi);
@@ -812,7 +812,7 @@ void Explorer::do_extractFS(CpyQueue queue)
                 emit sendProgress(spi);
             }
             if (spi.bytesCount != spi.bytesTotal)
-                return exit(QString("Failed to write file: %1").arg(cur_dest));
+                return exit(QString("写入文件失败: %1").arg(cur_dest));
 
             out_file.close();
         }
@@ -835,7 +835,7 @@ void Explorer::do_decryptNCA_Hactool(CpyQueue queue)
     pi.begin_time = chrono::system_clock::now();
 
     if (!pi.bytesTotal)
-        return exit("No file to extract");
+        return exit("没有文件可提取");
 
     QString errors;
     u32 good_count = 0;
@@ -848,7 +848,7 @@ void Explorer::do_decryptNCA_Hactool(CpyQueue queue)
         emit sendProgress(pi);
 
         if (!m_hactool.plaintextNCA(entry.source, entry.destination))
-            errors.append(m_hactool.lastError().isEmpty() ? "Hactoolnet : failed to decrypt NCA " + entry.source
+            errors.append(m_hactool.lastError().isEmpty() ? "Hactoolnet : 解密 NCA 失败 " + entry.source
                                                           :  m_hactool.lastError() + "\n");
         else good_count++;
         pi.bytesCount++;
@@ -856,7 +856,7 @@ void Explorer::do_decryptNCA_Hactool(CpyQueue queue)
     }
 
     if (pi.bytesTotal > 1) {
-        sprintf(pi.storage_name, "%d file%s", good_count, good_count>2 ? "s" : "");
+        sprintf(pi.storage_name, "%d 文件%s", good_count, good_count>2 ? "" : "");
         emit sendProgress(pi);
     }
     exit(errors);
@@ -923,16 +923,16 @@ void Explorer::on_selection_changed()
         view->addAction(action);
     };
 
-    QString selection_label = isMultipleSelection ? QString("[%1 files]").arg(selection.count()) : "";
+    QString selection_label = isMultipleSelection ? QString("[%1 文件]").arg(selection.count()) : "";
 
     // Enable buttons & actions
     QString fs_str(m_model.viewType() == UserSave ? "saveFS" : "romFS");
-    enable_action(ui->saveButton, QString("Save as... %1").arg(selection_label), &Explorer::save, selection.count());
-    enable_action(ui->decrypt_button, QString("Decrypt and save as... %1").arg(selection_label),
+    enable_action(ui->saveButton, QString("另存为... %1").arg(selection_label), &Explorer::save, selection.count());
+    enable_action(ui->decrypt_button, QString("解密并保存为... %1").arg(selection_label),
                   &Explorer::decrypt, m_model.viewType() == Nca && selection.count());
-    enable_action(ui->listFs_button, QString("List files (from %1) %2").arg(fs_str).arg(selection_label),
+    enable_action(ui->listFs_button, QString("文件列表 (%1) %2").arg(fs_str).arg(selection_label),
                   &Explorer::listFS, selection.count() == 1 && m_model.viewType() != Generic);
-    enable_action(ui->extractFs_button, QString("Extract files (from %1) to directory... %2").arg(fs_str).arg(selection_label),
+    enable_action(ui->extractFs_button, QString("提取文件 (%1) 到目录... %2").arg(fs_str).arg(selection_label),
               &Explorer::extractFS, m_model.viewType() != Generic && selection.count());
 
     if (isMultipleSelection || selection.isEmpty())
@@ -964,15 +964,15 @@ void Explorer::on_selection_changed()
     auto entry = m_model.entryAt(row_ix);
     for (int i(0); i < m_model.columnCount(); i++)
         if (m_model.getColumnType(i) == FileColumn)
-            enable_c2c_action("Copy filename to clipboard", FileColumn);
+            enable_c2c_action("复制文件名到剪贴板", FileColumn);
         else if (m_model.getColumnType(i) == SizeColumn)
-            enable_c2c_action("Copy filesize to clipboard", SizeColumn);
+            enable_c2c_action("复制文件大小到剪贴板", SizeColumn);
         else if (m_model.getColumnType(i) == TitleColumn)
-            enable_c2c_action("Copy titleID to clipboard", TitleColumn);
+            enable_c2c_action("复制 titleID 到剪贴板", TitleColumn);
         else if (m_model.getColumnType(i) == TypeColumn)
-            enable_c2c_action("Copy content type to clipboard", TypeColumn);
+            enable_c2c_action("复制文件类型到剪贴板", TypeColumn);
         else if (m_model.getColumnType(i) == UserColumn)
-            enable_c2c_action("Copy userID to clipboard", UserColumn);
+            enable_c2c_action("复制 userID 到剪贴板", UserColumn);
 
 }
 
@@ -986,7 +986,7 @@ void Explorer::on_currentDir_combo_currentIndexChanged(int index)
     else if (m_current_dir.contains("/Contents"))
         m_viewtype = Nca;
 
-    setWindowTitle(" Explorer (" + QString::fromStdString(m_partition->partitionName()) + ":" + m_current_dir + ") - Beta version (WIP)");
+    setWindowTitle(" 搜索 (" + QString::fromStdString(m_partition->partitionName()) + ":" + m_current_dir + ") - 测试版本 (WIP)");
 
     ui->warningLabel->setText("");
     ui->warningLabel->setToolTip("");
@@ -994,12 +994,12 @@ void Explorer::on_currentDir_combo_currentIndexChanged(int index)
     QString warning_txt;
     QString warning_tip;
     if (!m_hactool.exists()) {
-        warning_txt = "hactoolnet.exe not found!";
-        warning_tip = "Program path should be: " + m_hactool.pgm_path();
+        warning_txt = "hactoolnet.exe 未找到!";
+        warning_tip = "程序路径: " + m_hactool.pgm_path();
     }
     else if (m_partition->type() == USER && m_viewtype == Nca && !HasGenericKey(&m_partition->nxStorage()->keyset, "header_key")) {
-        warning_txt = "Warning: header_key missing in keys.dat";
-        warning_tip = "Please re-import keys from prod.keys (generated by Lockpick RCM) => Options > Configure keyset";
+        warning_txt = "警告: header_key 缺少 keys.dat";
+        warning_tip = "重新导入 prod.keys 密钥 (由 Lockpick RCM 生成) => 选项 > 配置密钥";
 
     }
     if (!warning_txt.isEmpty()) {
@@ -1064,7 +1064,7 @@ void Explorer::decrypt(NxFileList selectedFiles)
         return;
 
     if (!m_hactool.exists())
-        return error(0, "hactoolnet.exe not found!");
+        return error(0, "hactoolnet.exe 未找到!");
 
     if (!m_partition->is_vfs_mounted() || (m_partition->is_vfs_mounted() && !m_partition->vfs()->virtualize_nxa))
         return askForVfsMount([=]() { decrypt(selectedFiles); });
@@ -1098,12 +1098,12 @@ void Explorer::listFS(NxFileList selectedFiles)
     {
         NxSave save(entry);
         if (!save.exists() || !save.isSAVE()) {
-            QMessageBox::critical(this, "Error", "Failed to open file");
+            QMessageBox::critical(this, "错误", "打开文件失败");
             return;
         }
         auto files = save.listFiles();
         if (!files.size()) {
-            QMessageBox::information(this, "Information", "No file found");
+            QMessageBox::information(this, "信息", "未找到文件");
             return;
         }
         auto dialog = new QDialog(this, Qt::Dialog | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
@@ -1116,7 +1116,7 @@ void Explorer::listFS(NxFileList selectedFiles)
         listWdgt->setSelectionBehavior(QAbstractItemView::SelectRows);
         listWdgt->setSelectionMode(QAbstractItemView::SingleSelection);
         listWdgt->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        listWdgt->setHorizontalHeaderLabels(QStringList() << "File" << "Size");
+        listWdgt->setHorizontalHeaderLabels(QStringList() << "文件" << "大小");
         u64 total_size = 0;
         for (auto file : files) {
             auto ix = listWdgt->rowCount();
@@ -1129,12 +1129,12 @@ void Explorer::listFS(NxFileList selectedFiles)
         }
         listWdgt->resizeColumnsToContents();
         listWdgt->setContextMenuPolicy(Qt::ActionsContextMenu);
-        QAction* saveAction = new QAction(QIcon(":images/save2.png"), "Save file as...");
-        saveAction->setStatusTip("Extract file from save");
+        QAction* saveAction = new QAction(QIcon(":images/save2.png"), "文件另存为...");
+        saveAction->setStatusTip("提取保存文件");
         connect(saveAction, &QAction::triggered, [=]() {
             auto file = listWdgt->selectedItems().at(0)->data(Qt::UserRole).value<NxSaveFile>();
 
-            QFileDialog fd(this, "Save file as...", "default_dir\\" + QString::fromStdString(file.filename));
+            QFileDialog fd(this, "文件另存为...", "default_dir\\" + QString::fromStdString(file.filename));
             fd.setFileMode(QFileDialog::AnyFile);
             fd.setAcceptMode(QFileDialog::AcceptSave);
             if (!fd.exec())
@@ -1145,7 +1145,7 @@ void Explorer::listFS(NxFileList selectedFiles)
                 output.remove();
 
             if(!output.open(QIODevice::WriteOnly))
-                emit error(1, QString("Failed to open %s for writing").arg(output.fileName()));
+                emit error(1, QString("未能打开 %s 写入").arg(output.fileName()));
 
             u32 buff_size = 0x400000; // 4 MB
             u8* buffer = (u8*)malloc(buff_size); // Allocate buffer
@@ -1161,14 +1161,14 @@ void Explorer::listFS(NxFileList selectedFiles)
 
             if (offset != file.size) {
                 output.remove();
-                emit error(1, QString("Failed to write %s").arg(output.fileName()));
+                emit error(1, QString("写入 %s 失败").arg(output.fileName()));
             }
-            else QMessageBox::information(this, "Success", "File saved.");
+            else QMessageBox::information(this, "成功", "文件已保存.");
             free(buffer);
         });
         listWdgt->addAction(saveAction);
 
-        layout->addWidget(new QLabel(QString("%1 file%2 (%3)").arg(files.size()).arg(files.size()>1?"s":"")
+        layout->addWidget(new QLabel(QString("%1 文件%2 (%3)").arg(files.size()).arg(files.size()>1?"":"")
                                      .arg(QString::fromStdString(GetReadableSize(total_size)))));
         auto size_hint = listWdgt->columnWidth(0) + listWdgt->columnWidth(1) + 80;
         dialog->resize(QSize(size_hint < this->width() ? size_hint : this->width(), files.size() > 5 ? 350 : 200));
@@ -1178,7 +1178,7 @@ void Explorer::listFS(NxFileList selectedFiles)
     }
 
     if (!m_hactool.exists())
-        return error(1, "hactoolnet.exe not found!");
+        return error(1, "hactoolnet.exe 未找到!");
 
     QStringList files;
     if (!m_partition->is_vfs_mounted() || (m_partition->is_vfs_mounted() && !m_partition->vfs()->virtualize_nxa))
@@ -1186,7 +1186,7 @@ void Explorer::listFS(NxFileList selectedFiles)
     else files = m_hactool.listFiles(NxFilePath2VfsPath(m_partition, entry), entry->isNCA() ? HacToolNet::Nca : HacToolNet::Save);
 
     if (files.isEmpty())
-        return m_hactool.lastError().isEmpty() ? (void) QMessageBox::information(this, "Information", "No file found") : (void)0;
+        return m_hactool.lastError().isEmpty() ? (void) QMessageBox::information(this, "信息", "未找到文件") : (void)0;
 
     // filelist dialog
     auto dialog = new QDialog(this, Qt::Dialog | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
@@ -1196,7 +1196,7 @@ void Explorer::listFS(NxFileList selectedFiles)
     auto listWdgt = new QTableWidget(dialog);
     listWdgt->setColumnCount(1);
     listWdgt->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    listWdgt->setHorizontalHeaderLabels(QStringList() << "File");
+    listWdgt->setHorizontalHeaderLabels(QStringList() << "文件");
     layout->addWidget(listWdgt);
     for (auto file : files) {
         auto ix = listWdgt->rowCount();
@@ -1215,7 +1215,7 @@ void Explorer::extractFS(QList<NxFile*> selectedFiles)
         return;
 
     if (m_viewtype == Nca && !m_hactool.exists())
-        return error(1, "hactoolnet.exe not found!");
+        return error(1, "hactoolnet.exe 未找到!");
 
     if (m_viewtype == Nca && (!m_partition->is_vfs_mounted() || (m_partition->is_vfs_mounted() && !m_partition->vfs()->virtualize_nxa)))
         return askForVfsMount([=]() {

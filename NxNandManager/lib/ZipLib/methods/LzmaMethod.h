@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ICompressionMethod.h"
 #include "../compression/lzma/lzma_encoder.h"
 #include "../compression/lzma/lzma_decoder.h"

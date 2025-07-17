@@ -1,4 +1,4 @@
-/* HuffEnc.h -- Huffman encoding
+﻿/* HuffEnc.h -- Huffman encoding
 2009-02-07 : Igor Pavlov : Public domain */
 
 #ifndef __HUFF_ENC_H

@@ -1,4 +1,4 @@
-#include "loading_widget.h"
+﻿#include "loading_widget.h"
 #include "ui_loading_widget.h"
 #include <QDateTime>
 #include <QMovie>

@@ -1,4 +1,4 @@
-/* BwtSort.c -- BWT block sorting
+﻿/* BwtSort.c -- BWT block sorting
 2008-08-17
 Igor Pavlov
 Public domain */

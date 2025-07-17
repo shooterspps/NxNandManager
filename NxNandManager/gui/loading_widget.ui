@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>loadingWidget</class>
  <widget class="QDialog" name="loadingWidget">
@@ -44,7 +44,7 @@
      </sizepolicy>
     </property>
     <property name="text">
-     <string>Work in progress</string>
+     <string>任务进行中</string>
     </property>
     <property name="scaledContents">
      <bool>true</bool>

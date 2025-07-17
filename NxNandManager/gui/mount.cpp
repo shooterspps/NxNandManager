@@ -1,4 +1,4 @@
-#include "mount.h"
+﻿#include "mount.h"
 #include "ui_mount.h"
 #include "../res/utils.h"
 #include "mainwindow.h"
@@ -12,14 +12,14 @@ MountDialog::MountDialog(QWidget *parent, NxPartition* partition) :
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
-    setWindowTitle(QString("Mount %1").arg(QString::fromStdString(m_nxp->partitionName())));
+    setWindowTitle(QString("挂载 %1").arg(QString::fromStdString(m_nxp->partitionName())));
 
     auto mainwin = reinterpret_cast<MainWindow*>(parent);
     connect(this, &MountDialog::error, mainwin, &MainWindow::error);
     connect(this, &MountDialog::dokanDriver_install_signal, this, &MountDialog::dokanDriver_install);
     connect(this, &MountDialog::on_mounting_done_signal, this, &MountDialog::on_mounting_done);
 
-    ui->virtualNxaCheckBox->setToolTip("Only applies to NCA under /Contents (& subdirs)<br><img src=':/images/vfs_nca.png'><br>No more 4GB file size limitation");
+    ui->virtualNxaCheckBox->setToolTip("NCA 仅适用于 /目录 (子目录)<br><img src=':/images/vfs_nca.png'><br>不再限制 4GB 文件大小");
 
     loading = new QMovie(":/images/loading_wheel.gif");
     loading->setScaledSize(QSize(25, 25));
@@ -74,7 +74,7 @@ void MountDialog::on_mountButton_clicked()
         ui->mountPointComboBox->setDisabled(false);
         ui->virtualNxaCheckBox->setDisabled(false);
         ui->loadingLabel->show();
-        ui->mountButton->setText("Unmounting...");
+        ui->mountButton->setText("弹出中...");
         ui->mountButton->setEnabled(false);
 
         int res = m_nxp->unmount_vfs();
@@ -83,7 +83,7 @@ void MountDialog::on_mountButton_clicked()
     else
     {
         if (ui->mountPointComboBox->currentData().toString().isEmpty())
-            return emit error(1, "Drive letter empty!");
+            return emit error(1, "驱动器为空!");
 
         auto mount_point = ui->mountPointComboBox->currentData().toString().toStdWString().at(0);
 
@@ -106,11 +106,11 @@ void MountDialog::on_mountButton_clicked()
                 emit error(1, QString::fromStdString(dokanNtStatusToStr(status)));
 
             ui->loadingLabel->hide();
-            ui->mountButton->setText("Mount");
+            ui->mountButton->setText("挂载");
             ui->mountButton->setEnabled(true);
         });
         ui->loadingLabel->show();
-        ui->mountButton->setText("Mounting...");
+        ui->mountButton->setText("挂载中...");
         ui->mountButton->setDisabled(true);
         VFSOptions options = NoOption;
         if (ui->readOnlyCheckBox->isChecked())
@@ -127,7 +127,7 @@ void MountDialog::on_mounting_done()
     if (!m_nxp->is_vfs_mounted())
     {
         ui->loadingLabel->hide();
-        ui->mountButton->setText("Mount");
+        ui->mountButton->setText("挂载");
         ui->mountButton->setEnabled(true);
         ui->openExplorerCheckBox->setDisabled(false);
         ui->readOnlyCheckBox->setDisabled(false);
@@ -137,7 +137,7 @@ void MountDialog::on_mounting_done()
     else
     {
         ui->loadingLabel->hide();
-        ui->mountButton->setText("Unmount");
+        ui->mountButton->setText("弹出");
         ui->mountButton->setEnabled(true);
         ui->openExplorerCheckBox->setDisabled(true);
         ui->readOnlyCheckBox->setDisabled(true);
@@ -148,7 +148,7 @@ void MountDialog::on_mounting_done()
 
 void MountDialog::dokanDriver_install()
 {
-    if(QMessageBox::question(nullptr, "Error", "Dokan driver not found\nDo you want to proceed with installation ?",
+    if(QMessageBox::question(nullptr, "错误", "未找到 Dokan 驱动程序\n是否继续安装 ?",
              QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
     {
         int res = installDokanDriver();

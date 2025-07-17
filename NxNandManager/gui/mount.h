@@ -1,4 +1,4 @@
-#ifndef MOUNT_H
+﻿#ifndef MOUNT_H
 #define MOUNT_H
 
 #include <QDialog>

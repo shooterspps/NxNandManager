@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2019 eliboa
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -37,7 +37,7 @@ ResizeUser::ResizeUser(QWidget *parent, NxStorage *input) :
     ui->new_size->setMinimum(min);
     ui->new_size->setMaximum(999999);
     ui->new_size->setValue(min);
-    ui->range_size_label->setText("(Min: " + QString::number(min) + " Mb, Max: " + QString::number(999999) + " Mb)");
+    ui->range_size_label->setText("(最小值: " + QString::number(min) + " Mb, 最大值: " + QString::number(999999) + " Mb)");
     on_new_size_valueChanged(min);
 
     QString CurrentFile;
@@ -68,7 +68,7 @@ void ResizeUser::on_checkBox_stateChanged(int arg1)
         if(!min) min = 64;
     }
     ui->new_size->setMinimum(min);
-    ui->range_size_label->setText("(Min: " + QString::number(min) + " Mb, Max: " + QString::number(999999) + " Mb)");
+    ui->range_size_label->setText("(最小值: " + QString::number(min) + " Mb, 最大值: " + QString::number(999999) + " Mb)");
 }
 
 void ResizeUser::on_new_size_valueChanged(int size)
@@ -87,7 +87,7 @@ void ResizeUser::on_selectFileButton_clicked()
     QString save_filename(input->getNxTypeAsStr());
     save_filename.append(".resized");
 
-    QString fileName = fd.getSaveFileName(this, "Save as", "default_dir\\" + save_filename);
+    QString fileName = fd.getSaveFileName(this, "另存为", "default_dir\\" + save_filename);
     if (!fileName.isEmpty())
         ui->output->setText(fileName);
 }

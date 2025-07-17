@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <streambuf>
 
 template <typename ELEM_TYPE, typename TRAITS_TYPE>

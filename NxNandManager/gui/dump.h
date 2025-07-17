@@ -1,4 +1,4 @@
-#ifndef DUMP_H
+﻿#ifndef DUMP_H
 #define DUMP_H
 
 #include <QDialog>

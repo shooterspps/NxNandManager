@@ -1,4 +1,4 @@
-#ifndef EXPLORER_H
+﻿#ifndef EXPLORER_H
 #define EXPLORER_H
 
 #include <QDialog>

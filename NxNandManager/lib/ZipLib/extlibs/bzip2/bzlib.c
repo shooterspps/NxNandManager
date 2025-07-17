@@ -1,4 +1,4 @@
-
+﻿
 /*-------------------------------------------------------------*/
 /*--- Library top-level functions.                          ---*/
 /*---                                               bzlib.c ---*/
@@ -41,42 +41,42 @@
 void BZ2_bz__AssertH__fail ( int errcode )
 {
    fprintf(stderr, 
-      "\n\nbzip2/libbzip2: internal error number %d.\n"
-      "This is a bug in bzip2/libbzip2, %s.\n"
-      "Please report it to me at: jseward@bzip.org.  If this happened\n"
-      "when you were using some program which uses libbzip2 as a\n"
-      "component, you should also report this bug to the author(s)\n"
-      "of that program.  Please make an effort to report this bug;\n"
-      "timely and accurate bug reports eventually lead to higher\n"
-      "quality software.  Thanks.  Julian Seward, 10 December 2007.\n\n",
+      "\n\nbzip2/libbzip2: 内部错误编号 %d.\n"
+      "这是 bzip2/libbzip2 的一个 bug/, %s.\n"
+      "如果发生这种情况请向我报告: jseward@bzip.org.  \n"
+      "当你在使用一些 libbzip2 程序作为一个\n"
+      "组成部分, 你也应该向该程序的作者\n"
+      "报告这个错误.  请努力报告这个错误;\n"
+      "及时准确的bug报告最终会带来\n"
+      "更高质量的软件. 谢谢.  Julian Seward, 10 December 2007.\n\n",
       errcode,
       BZ2_bzlibVersion()
    );
 
    if (errcode == 1007) {
    fprintf(stderr,
-      "\n*** A special note about internal error number 1007 ***\n"
+      "\n*** 关于内部错误编号1007的特别说明 ***\n"
       "\n"
-      "Experience suggests that a common cause of i.e. 1007\n"
-      "is unreliable memory or other hardware.  The 1007 assertion\n"
-      "just happens to cross-check the results of huge numbers of\n"
-      "memory reads/writes, and so acts (unintendedly) as a stress\n"
-      "test of your memory system.\n"
+      "经验表明常见的原因即1007\n"
+      "是不可靠的内存或其他硬件. 1007的说法\n"
+      "恰好可以交叉检查大量的结果\n"
+      "内存读取/写, 所以作为一个压力作用(无意)\n"
+      "内存测试.\n"
       "\n"
-      "I suggest the following: try compressing the file again,\n"
-      "possibly monitoring progress in detail with the -vv flag.\n"
+      "我建议采取以下措施: 再次压缩文件,\n"
+      "详细监测进展情况 -vv flag.\n"
       "\n"
-      "* If the error cannot be reproduced, and/or happens at different\n"
-      "  points in compression, you may have a flaky memory system.\n"
-      "  Try a memory-test program.  I have used Memtest86\n"
-      "  (www.memtest86.com).  At the time of writing it is free (GPLd).\n"
-      "  Memtest86 tests memory much more thorougly than your BIOSs\n"
-      "  power-on test, and may find failures that the BIOS doesn't.\n"
+      "* 如果错误无法再现, 并且/或发生在不同\n"
+      "  在压缩过程中, 你可能有一个不稳定的内存系统.\n"
+      "  试试内存测试程序, 我用过Memtest86\n"
+      "  (www.memtest86.com).  在写这篇文章的时候，它是免费的 (GPLd).\n"
+      "  Memtest86对内存的测试比你的BIOS要仔细得多\n"
+      "  开机测试, 可能会发现BIOS没有发现的故障.\n"
       "\n"
-      "* If the error can be repeatably reproduced, this is a bug in\n"
-      "  bzip2, and I would very much like to hear about it.  Please\n"
-      "  let me know, and, ideally, save a copy of the file causing the\n"
-      "  problem -- without which I will be unable to investigate it.\n"
+      "* 如果错误可以重复出现, 这就是一个错误\n"
+      "  bzip2, 我非常希望听到它的消息.  请您\n"
+      "  让我知道, 并且, 最好是保存一个导致该文件的问题\n"
+      "  副本--没有这个副本, 我就无法调查.\n"
       "\n"
    );
    }
@@ -1454,7 +1454,7 @@ BZFILE * bzopen_or_bzdopen
 /*---------------------------------------------------*/
 /*--
    open file for read or write.
-      ex) bzopen("file","w9")
+      ex) bzopen("文件","w9")
       case path="" or NULL => use stdin or stdout.
 --*/
 BZFILE * BZ_API(BZ2_bzopen)
@@ -1537,7 +1537,7 @@ void BZ_API(BZ2_bzclose) (BZFILE* b)
    return last error code 
 --*/
 static const char *bzerrorstrings[] = {
-       "OK"
+       "确定"
       ,"SEQUENCE_ERROR"
       ,"PARAM_ERROR"
       ,"MEM_ERROR"

@@ -1,4 +1,4 @@
-/* Use when compiling with BZ_NO_STDIO */
+﻿/* Use when compiling with BZ_NO_STDIO */
 
 #include <assert.h>
 

@@ -1,4 +1,4 @@
-#include "NxFile.h"
+﻿#include "NxFile.h"
 
 NxFile::NxFile(NxPartition* nxp, const wstring &name, NxFileFlag options)
  : m_nxp(nxp), m_options(options)

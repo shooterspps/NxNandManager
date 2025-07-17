@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2019 eliboa
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -50,7 +50,7 @@ KeySetDialog::KeySetDialog(QWidget *parent) :
     auto table = ui->keysTable;
     table->setContextMenuPolicy(Qt::ActionsContextMenu);
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
-    auto deleteAction = new QAction(QIcon(":/images/close-window-32.ico"), "Remove selected key(s)");
+    auto deleteAction = new QAction(QIcon(":/images/close-window-32.ico"), "移除选定的密钥");
     connect(deleteAction, &QAction::triggered, [&](){
         auto selection = ui->keysTable->selectionModel()->selectedRows();
         QList<int> idxs;
@@ -130,9 +130,9 @@ void KeySetDialog::on_ImportButton_clicked()
     if (new_count + upd_count)
         displayKeys();
 
-    QMessageBox::information(this, "Key import", QString("%1 key%2 imported (new: %3, updated: %4)")
+    QMessageBox::information(this, "导入密钥", QString("%1 密钥%2已导入 (新增: %3, 更新: %4)")
                                                     .arg(new_count + upd_count)
-                                                    .arg(new_count + upd_count > 1 ? "s" : "")
+                                                    .arg(new_count + upd_count > 1 ? "" : "")
                                                     .arg(new_count).arg(upd_count));
 }
 
@@ -144,7 +144,7 @@ void KeySetDialog::on_buttonBox_accepted()
         file.remove();
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-       return (void) QMessageBox::critical(nullptr,"Error", QString("Failed to open/create keys.dat"));
+       return (void) QMessageBox::critical(nullptr,"错误", QString("打开/创建 keys.dat 失败"));
 
     QTextStream out(&file);
     for (auto k : m_keys)

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <istream>
 #include "streambuffs/compression_decoder_streambuf.h"
 

@@ -1,4 +1,4 @@
-#ifndef LOADING_WIDGET_H
+﻿#ifndef LOADING_WIDGET_H
 #define LOADING_WIDGET_H
 
 #include <QDialog>
