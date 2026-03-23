@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DialogKeySet</class>
  <widget class="QDialog" name="DialogKeySet">
@@ -24,7 +24,7 @@
    <item row="4" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="locale">
-      <locale language="English" country="UnitedStates"/>
+      <locale language="Chinese" country="China"/>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -45,10 +45,10 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;prod.keys, title.keys, etc.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;例如: prod.keys, title.keys.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string> Import keys from file</string>
+        <string> 从文件中导入密钥</string>
        </property>
        <property name="icon">
         <iconset resource="application.qrc">
@@ -59,7 +59,7 @@
      <item>
       <widget class="QPushButton" name="clearKeysButton">
        <property name="text">
-        <string>Clear keyset</string>
+        <string>清除密钥</string>
        </property>
       </widget>
      </item>

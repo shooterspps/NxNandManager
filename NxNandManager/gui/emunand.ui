@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Emunand</class>
- <widget class="QDialog" name="Emunand">
+ <widget class="QDialog" name="虚拟系统">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -17,7 +17,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>emuNAND creation Tool</string>
+   <string>虚拟系统创建工具</string>
   </property>
   <property name="windowIcon">
    <iconset resource="application.qrc">
@@ -36,7 +36,7 @@
    <item row="2" column="0" colspan="3">
     <widget class="QGroupBox" name="driveListBox">
      <property name="title">
-      <string>Select target:</string>
+      <string>选择目标:</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
@@ -48,7 +48,7 @@
    <item row="0" column="0" colspan="3">
     <widget class="QGroupBox" name="bootPartBox">
      <property name="title">
-      <string>Input NAND:</string>
+      <string>导入 NAND:</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
@@ -68,7 +68,7 @@
       <item row="0" column="2">
        <widget class="QPushButton" name="nand_pushBtn">
         <property name="text">
-         <string>Select file...</string>
+         <string>选择文件...</string>
         </property>
        </widget>
       </item>
@@ -89,7 +89,7 @@
       <item row="1" column="2">
        <widget class="QPushButton" name="boo0_pushBtn">
         <property name="text">
-         <string>Select file...</string>
+         <string>选择文件...</string>
         </property>
        </widget>
       </item>
@@ -110,7 +110,7 @@
       <item row="2" column="2">
        <widget class="QPushButton" name="boo1_pushBtn">
         <property name="text">
-         <string>Select file...</string>
+         <string>选择文件...</string>
         </property>
        </widget>
       </item>
@@ -120,7 +120,7 @@
    <item row="1" column="0" colspan="3">
     <widget class="QGroupBox" name="emunandTypeBox">
      <property name="title">
-      <string>Select emuNAND type:</string>
+      <string>选择虚拟系统类型:</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -128,21 +128,21 @@
         <item>
          <widget class="QRadioButton" name="emunandType_PartitionChkBox">
           <property name="text">
-           <string>SD Partition</string>
+           <string>SD 隐藏分区</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QRadioButton" name="emunandType_SDFileAMSChkBox">
           <property name="text">
-           <string>SD File (AMS)</string>
+           <string>SD 文件形式(大气层)</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QRadioButton" name="emunandType_SDFileSXChkBox">
           <property name="text">
-           <string>SD File (SX OS)</string>
+           <string>SD 文件形式(SX OS)</string>
           </property>
          </widget>
         </item>
@@ -179,7 +179,7 @@
       </size>
      </property>
      <property name="title">
-      <string>Output:</string>
+      <string>导出:</string>
      </property>
      <widget class="QProgressBar" name="outBar">
       <property name="geometry">
@@ -268,7 +268,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Path: </string>
+       <string>路径: </string>
       </property>
      </widget>
      <widget class="QLabel" name="outPathLbl">
@@ -289,14 +289,14 @@
    <item row="5" column="0">
     <widget class="QPushButton" name="createEmunandBtn">
      <property name="text">
-      <string>Create emuNAND</string>
+      <string>创建虚拟系统</string>
      </property>
     </widget>
    </item>
    <item row="5" column="2">
     <widget class="QPushButton" name="cancelBtn">
      <property name="text">
-      <string>Cancel</string>
+      <string>取消</string>
      </property>
     </widget>
    </item>

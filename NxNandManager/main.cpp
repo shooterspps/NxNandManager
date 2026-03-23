@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2019 eliboa
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -64,46 +64,46 @@ void printStorageInfo(NxStorage *storage)
     char c_path[MAX_PATH] = { 0 };
     std::wcstombs(c_path, storage->m_path, wcslen(storage->m_path));
 
-    printf("NAND type      : %s%s\n", storage->getNxTypeAsStr(), storage->isSplitted() ? " - splitted dump" : "");
-    printf("Path           : %s", c_path);
+    printf("NAND 类型      : %s%s\n", storage->getNxTypeAsStr(), storage->isSplitted() ? " - 分卷备份" : "");
+    printf("路径           : %s", c_path);
     if (storage->isSplitted())
         printf(" - +%d", storage->nxHandle->getSplitCount() - 1);
     printf("\n");
 
     if (storage->type == INVALID && is_dir(c_path))
-        printf("File/Disk      : Directory");
+        printf("文件/磁盘      : 目录");
     else 
-        printf("File/Disk      : %s", storage->isDrive() ? "Disk" : "File");
+        printf("文件/磁盘      : %s", storage->isDrive() ? "磁盘" : "文件");
     if (storage->type == RAWMMC)
         printf(" [0x%s - 0x%s]\n", n2hexstr((u64)storage->mmc_b0_lba_start * NX_BLOCKSIZE, 10).c_str(), n2hexstr((u64)storage->mmc_b0_lba_start * NX_BLOCKSIZE + storage->size() - 1, 10).c_str());
     else printf("\n");
     if(storage->type != INVALID) 
     {
-        printf("Size           : %s", GetReadableSize(storage->size()).c_str());
+        printf("大小           : %s", GetReadableSize(storage->size()).c_str());
         if(storage->isSinglePartType() && storage->getNxPartition()->freeSpace)
-            printf(" - free space %s", GetReadableSize(storage->getNxPartition()->freeSpace).c_str());
+            printf(" - 空闲空间 %s", GetReadableSize(storage->getNxPartition()->freeSpace).c_str());
         printf("\n");
     }
     if (!storage->isNxStorage())
         return;
 
 
-    printf("Encrypted      : %s%s\n", storage->isEncrypted() ? "Yes" : "No", storage->badCrypto() ? "  !!! DECRYPTION FAILED !!!" : "");
+    printf("加密      : %s%s\n", storage->isEncrypted() ? "是" : "否", storage->badCrypto() ? "  !!! 解密失败 !!!" : "");
 
     if (nullptr != storage->getNxPartition(BOOT0))
     {
-        printf("SoC revision   : %s\n", storage->isEristaBoot0 ? "Erista" : "Unknown - Mariko");
+        printf("SoC 修订   : %s\n", storage->isEristaBoot0 ? "Erista" : "Unknown - Mariko");
 
         if (storage->isEristaBoot0)
         {
             printf("AutoRCM        : %s\n", storage->autoRcm ? "ENABLED" : "DISABLED");
-            printf("Bootloader ver.: %d\n", static_cast<int>(storage->bootloader_ver));
+            printf("Bootloader 版本: %d\n", static_cast<int>(storage->bootloader_ver));
         }
     }
     if (storage->firmware_version.major > 0)
     {
-        printf("Firmware ver.  : %s\n", storage->getFirmwareVersion().c_str());
-        if (nullptr != storage->getNxPartition(SYSTEM)) printf("ExFat driver   : %s\n", storage->exFat_driver ? "Detected" : "Undetected");
+        printf("Firmware 版本  : %s\n", storage->getFirmwareVersion().c_str());
+        if (nullptr != storage->getNxPartition(SYSTEM)) printf("ExFat 驱动   : %s\n", storage->exFat_driver ? "检测到" : "未检测到");
     }
     
     // TODO
@@ -111,13 +111,13 @@ void printStorageInfo(NxStorage *storage)
     //    printf("Last boot      : %s\n", storage->last_boot);
 
     if (strlen(storage->serial_number) > 3)
-        printf("Serial number  : %s\n", storage->serial_number);
+        printf("序列号  : %s\n", storage->serial_number);
 
     if (strlen(storage->deviceId) > 0)
-        printf("Device Id      : %s\n", storage->deviceId);
+        printf("设备 ID      : %s\n", storage->deviceId);
 
     if (storage->macAddress.length() > 0)
-        printf("MAC Address    : %s\n", storage->macAddress.c_str());
+        printf("MAC 地址    : %s\n", storage->macAddress.c_str());
 
     if (storage->partitions.size() <= 1)
         return;
@@ -128,8 +128,8 @@ void printStorageInfo(NxStorage *storage)
         printf("%s %s", !i ? "\nPartitions : \n -" : " -", part->partitionName().c_str());
         printf(" - %s", GetReadableSize(part->size()).c_str());
         if (part->freeSpace)
-            printf(", free space %s", GetReadableSize(part->freeSpace).c_str());
-        printf("%s - %s", part->isEncryptedPartition() ? " encrypted" : "", part->badCrypto() ? "  !!! DECRYPTION FAILED !!!" : "");
+            printf(", 空闲空间 %s", GetReadableSize(part->freeSpace).c_str());
+        printf("%s - %s", part->isEncryptedPartition() ? " encrypted" : "", part->badCrypto() ? "  !!! 解密失败 !!!" : "");
 
         dbg_printf(" [0x%s - 0x%s]", n2hexstr((u64)part->lbaStart() * NX_BLOCKSIZE, 10).c_str(), n2hexstr((u64)part->lbaStart() * NX_BLOCKSIZE + part->size()-1, 10).c_str());
 
@@ -140,9 +140,9 @@ void printStorageInfo(NxStorage *storage)
     if (storage->type == RAWMMC || storage->type == RAWNAND)
     {
         if(storage->backupGPT())
-            printf("Backup GPT     : FOUND - offset 0x%s\n", n2hexstr(storage->backupGPT(), 10).c_str());
+            printf("GPT 备份     : 找到 - 偏移 0x%s\n", n2hexstr(storage->backupGPT(), 10).c_str());
         else
-            printf("Backup GPT     : !!! Missing or invalid !!!\n");
+            printf("GPT 备份     : !!! 丢失或无效 !!!\n");
 
     }
 }
@@ -164,26 +164,26 @@ void printProgress(ProgressInfo pi)
 
     if (pi.bytesCount == pi.bytesTotal)
     {
-        if (pi.mode == MD5_HASH) sprintf(label, "verified");
-        else if (pi.mode == RESTORE) sprintf(label, "restored");
-        else if (pi.mode == RESIZE) sprintf(label, "resized");
-        else if (pi.mode == CREATE) sprintf(label, "created");
-        else if (pi.mode == ZIP) sprintf(label, "archived");
-        else sprintf(label, "dumped");
-        printf("%s%s %s. %s - Elapsed time: %s                                              \n", pi.isSubProgressInfo ? "  " : "",
+        if (pi.mode == MD5_HASH) sprintf(label, "校验完成");
+        else if (pi.mode == RESTORE) sprintf(label, "还原完成");
+        else if (pi.mode == RESIZE) sprintf(label, "调整完成");
+        else if (pi.mode == CREATE) sprintf(label, "创建完成");
+        else if (pi.mode == ZIP) sprintf(label, "压缩完成");
+        else sprintf(label, "备份完成");
+        printf("%s%s %s. %s - 使用时间: %s                                              \n", pi.isSubProgressInfo ? "  " : "",
             pi.storage_name, label, GetReadableSize(pi.bytesTotal).c_str(), GetReadableElapsedTime(tmp_elapsed_seconds).c_str());
     }
     else
     {
-        if (pi.mode == MD5_HASH) sprintf(label, "Computing MD5 hash for");
-        else if (pi.mode == RESTORE) sprintf(label, "Restoring to");
-        else if (pi.mode == RESIZE) sprintf(label, "Resizing");
-        else if (pi.mode == CREATE) sprintf(label, "Creating");
-        else if (pi.mode == ZIP) sprintf(label, "Archiving");
-        else sprintf(label, "Copying");
+        if (pi.mode == MD5_HASH) sprintf(label, "计算 MD5 哈希值");
+        else if (pi.mode == RESTORE) sprintf(label, "还原为");
+        else if (pi.mode == RESIZE) sprintf(label, "调整大小");
+        else if (pi.mode == CREATE) sprintf(label, "正在创建");
+        else if (pi.mode == ZIP) sprintf(label, "正在压缩");
+        else sprintf(label, "正在复制");
         printf("%s%s %s... %s /%s (%d%%)", pi.isSubProgressInfo ? "  " : "", label, pi.storage_name,
             GetReadableSize(pi.bytesCount).c_str(), GetReadableSize(pi.bytesTotal).c_str(), pi.bytesCount * 100 / pi.bytesTotal);
-        if (elapsed_seconds) printf(" - Remaining time: %s             \r", buf.c_str());
+        if (elapsed_seconds) printf(" - 剩余时间: %s             \r", buf.c_str());
         else printf("                                          \r");
     }    
 }
@@ -276,7 +276,7 @@ int main(int argc, char *argv[])
     if (argc == 1)
     {
 #if defined(ENABLE_GUI)
-        printf("No argument provided. Switching to GUI mode...\n");
+        printf("没有提供参数. 切换到 GUI 模式...\n");
         PROCESS_INFORMATION pi;
         STARTUPINFO si;
         BOOL ret = FALSE;
@@ -451,7 +451,7 @@ int main(int argc, char *argv[])
             mount = true;
 
         else {
-            printf("Argument (%s) is not allowed.\n\n", currArg);
+            printf("参数 (%s) 不允许.\n\n", currArg);
             PrintUsage();
         }
     }
@@ -466,9 +466,9 @@ int main(int argc, char *argv[])
     {
         int fd;
         if ((fd = open(std_redir_output, O_RDWR | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR)) < 0)
-            throwException("Failed to create/open %s", (void*)std_redir_output);
+            throwException("无法创建/打开 %s", (void*)std_redir_output);
 
-        printf("Redirecting stdout to %s\n", std_redir_output);
+        printf("正在将标准输出重定向到 %s\n", std_redir_output);
         // redirect stdout
         _dup2(fd, _fileno(stdout));
 
@@ -485,14 +485,14 @@ int main(int argc, char *argv[])
 
     if (LIST)
     {
-        printf("Listing drives...\r");
+        printf("驱动器列表...\r");
         std:string drives = ListPhysicalDrives();
         if (!drives.length())
         {
-            printf("No compatible drive found!\n");
+            printf("未找到兼容驱动器!\n");
             exit(EXIT_SUCCESS);
         }
-        printf("Compatible drives :    \n");
+        printf("驱动器兼容 :    \n");
         printf("%s", drives.c_str());
         exit(EXIT_SUCCESS);
     }
@@ -502,12 +502,12 @@ int main(int argc, char *argv[])
 
     if ((encrypt || decrypt || cryptoCheck || mount) && nullptr == keyset)
     {
-        printf("-keyset missing\n\n");
+        printf("-密钥缺失\n\n");
         PrintUsage();
     }
 
     if (FORCE)
-        printf("Force mode activated, no questions will be asked.\n");
+        printf("激活强制模式, 不会有问题.\n");
 
 
     ///
@@ -515,21 +515,21 @@ int main(int argc, char *argv[])
     ///
 
     // New NxStorage for input
-    printf("Accessing input...\r");
+    printf("访问导入...\r");
     NxStorage nx_input = NxStorage(input);
     printf("                      \r");
    
     if (nx_input.type == INVALID)
     {
         if (nx_input.isDrive())
-            throwException(ERR_INVALID_INPUT, "Failed to open input disk. Make sure to run this program as an administrator.");
+            throwException(ERR_INVALID_INPUT, "打开导入磁盘失败. 请以管理员身份运行此程序.");
         else 
-            throwException("Failed to open input : %s", (void*)input);
+            throwException("打开导入失败 : %s", (void*)input);
     }
 
     // Set keys for input
     if (nullptr != keyset && is_in(nx_input.setKeys(keyset), { ERR_KEYSET_NOT_EXISTS, ERR_KEYSET_EMPTY }))
-        throwException("Failed to get keys from %s", (void*)keyset);
+        throwException("%s获取密钥失败", (void*)keyset);
 
     wchar_t input_path[MAX_PATH];
     int nSize = MultiByteToWideChar(CP_UTF8, 0, input, -1, NULL, 0);
@@ -539,7 +539,7 @@ int main(int argc, char *argv[])
     {
         char c_path[MAX_PATH] = { 0 };
         std::wcstombs(c_path, nx_input.m_path, wcslen(nx_input.m_path));
-        printf("-i automatically replaced by %s\n", c_path);
+        printf("-i 自动替换为 %s\n", c_path);
     }
 
     // Create new list for partitions and put -part arg in it
@@ -574,24 +574,24 @@ int main(int argc, char *argv[])
                 // Partition must exist in input
                 NxPartition *in_part = nx_input.getNxPartition(part_name);
                 if (nullptr == in_part)
-                    throwException("Partition %s not found in input (-i)", (void*)part_name);
+                    throwException("分区 %s 导入中找不到 (-i)", (void*)part_name);
 
                 // Validate crypto mode
                 if (!in_part->nxPart_info.isEncrypted)
                 {
-                    printf("Partition %s is not encrypted\n", (void*)in_part->partitionName().c_str());
+                    printf("分区 %s 未加密\n", (void*)in_part->partitionName().c_str());
                     throwException(ERR_CRYPTO_NOT_ENCRYPTED);
                 }
 
                 if (in_part->crypto() == nullptr)
                 {
-                    printf("Crypto is not set for partition %s (missing keys ?)\n", (void*)in_part->partitionName().c_str());
+                    printf("%s 分区没有设置密码 (密钥缺失 ?)\n", (void*)in_part->partitionName().c_str());
                     throwException(ERR_CRYPTO_KEY_MISSING);
                 }
 
                 if (in_part->badCrypto())
                 {
-                    printf("Crypto validation failed for partition %s (wrong keys)\n", (void*)in_part->partitionName().c_str());
+                    printf("%s 分区验证加密失败 (密钥错误)\n", (void*)in_part->partitionName().c_str());
                     throwException(ERROR_DECRYPT_FAILED);
                 }
             }
@@ -599,7 +599,7 @@ int main(int argc, char *argv[])
         else if (nx_input.badCrypto())
             throwException(ERROR_DECRYPT_FAILED);
 
-        printf("CRYPTO OK\n");
+        printf("加密 OK\n");
 
         exit(EXIT_SUCCESS);
     }
@@ -607,29 +607,29 @@ int main(int argc, char *argv[])
     if (setAutoRCM)
     {
         if (nullptr == nx_input.getNxPartition(BOOT0))
-            throwException("Cannot apply autoRCM to input type %s", (void*)nx_input.getNxTypeAsStr());
+            throwException("不能应用 autoRCM 为导入类型 %s", (void*)nx_input.getNxTypeAsStr());
 
         if (!nx_input.isEristaBoot0)
-            throwException("Cannot apply autoRCM, input doesn't contain a valid Erista's BOOT0 (Mariko?)");
+            throwException("无法应用 autoRCM, 输入不包含有效 Erista BOOT0 (Mariko?)");
 
         if (!nx_input.setAutoRcm(autoRCM))
-            throwException("Failed to apply autoRCM!");
+            throwException("未能应用 autoRCM!");
         else 
-            printf("autoRCM %s\n", autoRCM ? "enabled" : "disabled");
+            printf("autoRCM %s\n", autoRCM ? "已启用" : "已禁用");
     }
     //
     if (incognito)
     {
         NxPartition *cal0 = nx_input.getNxPartition(PRODINFO);
         if (nullptr == cal0)
-            throwException("Cannot apply Incognito to input type %s\n" 
-                "Incognito can only be applied to input types \"RAWNAND\", \"FULL NAND\" or \"PRODINFO\"\n", 
+            throwException("无法将擦除序列号应用于输入类型 %s\n" 
+                "擦除序列号只能应用于输入类型 \"RAWNAND\", \"FULL NAND\" 或 \"PRODINFO\"\n", 
                 (void*)nx_input.getNxTypeAsStr());
 
         bool do_backup = true;
-        if (!FORCE && !AskYesNoQuestion("Incognito will wipe out console unique id's and cert's from CAL0.\n"
-            "Make sure you have a backup of PRODINFO partition in case you want to restore CAL0 in the future.\n"
-            "Do you want to make a backup of PRODINFO now ?"))
+        if (!FORCE && !AskYesNoQuestion("擦除序列号将擦除 CAL0 设备的唯一 ID 和证书.\n"
+            "请确保已经备份 PRODINFO 分区用来随时还原 CAL0.\n"
+            "是否立即备份 PRODINFO ?"))
             do_backup = false;
 
         // Backup CAL0
@@ -647,31 +647,31 @@ int main(int argc, char *argv[])
             if(rc != SUCCESS)
                 throwException(rc);
             delete outHandle;
-            printf("\"PRODINFO.backup\" file created in application directory\n");
+            printf("\"PRODINFO.backup\" 在应用程序目录下创建目录\n");
         }
 
         if (int rc = nx_input.applyIncognito())
             throwException(rc);
 
-        printf("Incognito successfully applied to input\n");
+        printf("运行导入擦除序列号成功\n");
     }
   
     if (info)
     {
-        printf("\n -- INPUT -- \n");
+        printf("\n -- 导入 -- \n");
         printStorageInfo(&nx_input); 
     }
 
     if (mount)
     {
         if (not_in(nx_input.type, {RAWNAND, RAWMMC, PRODINFOF, SAFE, USER, SYSTEM}))
-            throwException("invalid input (RAWNAND, RAWMMC, PRODINFOF, SAFE, USER, SYSTEM)");
+            throwException("无效输入 (RAWNAND, RAWMMC, PRODINFOF, SAFE, USER, SYSTEM)");
 
         if (v_partitions.size() > 1)
-            throwException("Only one partition allowed (-part).");
+            throwException("只允许使用一个分区 (-part).");
 
         if (is_in(nx_input.type, {RAWNAND, RAWMMC}) && v_partitions.size() != 1)
-            throwException("Partition's name is missing (-part).");
+            throwException("分区的名称丢失 (-part).");
 
         NxPartition *in_part;
         if (is_in(nx_input.type, {RAWNAND, RAWMMC}))
@@ -686,13 +686,13 @@ int main(int argc, char *argv[])
             throwException(ERROR_DECRYPT_FAILED);
 
         if (driveLetter && !isAvailableMountPoint(&driveLetter))
-            throwException("An existing mount point already uses this drive letter");
+            throwException("现有挂载点已使用此驱动器");
 
         int res = SUCCESS;
         if((res = in_part->mount_fs()))
             throwException(res);
 
-        printf("FAT filesystem mounted.\n");
+        printf("FAT 文件系统已安装.\n");
 
         virtual_fs::virtual_fs v_fs(in_part);
         printf("Virtual fs initialized.\n");
@@ -733,7 +733,7 @@ int main(int argc, char *argv[])
     if (createEmuNAND && nullptr == output)
     {
         if (not_in(nx_input.type, {RAWNAND, RAWMMC}))
-            throwException("input is not a valid \"RAWNAND\" or \"FULL NAND\"");
+            throwException("导入无效 \"RAWNAND\" 或 \"FULL NAND\"");
 
         std::vector<diskDescriptor> disks, available_disks;
         std::vector<volumeDescriptor> available_volumes;
@@ -755,7 +755,7 @@ int main(int argc, char *argv[])
         }
 
         if (!available_disks.size() && !available_volumes.size())
-            throwException("Unable to detect any%s drive with sufficient capacity to create emuNAND\n", emunandType == rawBased ? (void*)" removable" : (void*)"");
+            throwException("无法侦测到任何%s 驱动器有足够容量创建虚拟系统\n", emunandType == rawBased ? (void*)" removable" : (void*)"");
 
         if (emunandType == rawBased)
         {
@@ -766,7 +766,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            printf("List of volumes with enough free space to create a file based emunand: \n");
+            printf("有足够空闲空间创建基于文件形式的虚拟系统卷列表: \n");
             for (volumeDescriptor vol : available_volumes)
             {
                 std::transform(vol.mountPt.begin(), vol.mountPt.end(), vol.mountPt.begin(), ::toupper);
@@ -835,7 +835,7 @@ int main(int argc, char *argv[])
         NxPartition *user = nx_input.getNxPartition(USER);
 
         if (nullptr == user->crypto() || user->badCrypto())
-            throwException("Bad crypto or missing keyset");
+            throwException("密码损坏或密钥丢失");
 
         std::string s_new_size(user_resize);
         int new_size = 0;
@@ -874,7 +874,7 @@ int main(int argc, char *argv[])
 
             remove(output);
             if (is_file(output))
-                throwException("Failed to delete output file");
+                throwException("导出文件删除失败");
         }
 
         if (FORMAT_USER && !FORCE && !AskYesNoQuestion("USER partition will be formatted in output file. Are you sure you want to continue ?"))
@@ -909,7 +909,7 @@ int main(int argc, char *argv[])
 
     // Output is unknown disk
     if (nx_output.type == INVALID && nx_output.isDrive())
-        throwException("Output is an unknown drive/disk!");
+        throwException("导出的是未知驱动器/磁盘!");
     
     // No partition provided
     if (!strlen(l_partitions))
@@ -980,7 +980,7 @@ int main(int argc, char *argv[])
             // Partition must exist in input
             NxPartition *in_part = nx_input.getNxPartition(part_name);
             if (nullptr == in_part)
-                throwException("Partition %s not found in input (-i)", (void*)part_name);
+                throwException("分区 %s 导入中找不到 (-i)", (void*)part_name);
 
             // Validate crypto mode
             if (decrypt && !in_part->isEncryptedPartition() && in_part->nxPart_info.isEncrypted)
@@ -1027,7 +1027,7 @@ int main(int argc, char *argv[])
         if (encrypt) label.append("encrypted and ");
         else if (decrypt) label.append("decrypted and ");
 
-        printf(" -- COPY --\nThe following partitions will be %s%s from input to ouput : \n", label.c_str(), nx_output.isNxStorage() ? "restored" : "dumped");
+        printf(" -- COPY --\nThe following partitions will be %s%s from input to ouput : \n", label.c_str(), nx_output.isNxStorage() ? "还原完成" : "备份完成");
         for (const char* partition : v_partitions) {
             printf("-%s\n", partition);
         }
@@ -1059,7 +1059,7 @@ int main(int argc, char *argv[])
 
             remove(output);
             if (is_file(output))
-                throwException("Failed to delete output file");
+                throwException("导出文件删除失败");
         }
 
         // Full dump
@@ -1107,7 +1107,7 @@ int main(int argc, char *argv[])
                     if (!FORCE && !AskYesNoQuestion("The following output file already exists :\n- %s\nDo you want to overwrite it ?", (void*)new_out))
                     {                        
                         if (!v_partitions.size())
-                            throwException("Operation canceled");
+                            throwException("已取消");
 
                         indexes.push_back(i);
                     }
@@ -1188,7 +1188,7 @@ int main(int argc, char *argv[])
             std::string parts;
             for (const char *part_name : v_partitions) parts.append("- ").append(part_name).append("\n");
             if (!FORCE && !AskYesNoQuestion("The following partition%s will be restored :\n%sAre you sure you want to continue ?", 
-                v_partitions.size() > 1 ? (void*)"s" : (void*)"", (void*)parts.c_str()))
+                v_partitions.size() > 1 ? (void*)"" : (void*)"", (void*)parts.c_str()))
                 throwException("Operation cancelled");
 
             // Copy each partition            

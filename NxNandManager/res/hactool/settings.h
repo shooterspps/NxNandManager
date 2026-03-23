@@ -1,4 +1,4 @@
-#ifndef HACTOOL_SETTINGS_H
+﻿#ifndef HACTOOL_SETTINGS_H
 #define HACTOOL_SETTINGS_H
 #include <stdio.h>
 #include "types.h"

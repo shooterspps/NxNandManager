@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "lzma_alloc.h"
 
 #include "../../../extlibs/lzma/LzmaEnc.h"

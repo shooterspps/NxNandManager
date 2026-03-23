@@ -1,4 +1,4 @@
-#ifndef PROGRESS_INFO_H
+﻿#ifndef PROGRESS_INFO_H
 #define PROGRESS_INFO_H
 
 #include <vector>

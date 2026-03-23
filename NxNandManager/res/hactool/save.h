@@ -1,4 +1,4 @@
-#ifndef HACTOOL_SAVE_H
+﻿#ifndef HACTOOL_SAVE_H
 #define HACTOOL_SAVE_H
 #include "types.h"
 #include "settings.h"

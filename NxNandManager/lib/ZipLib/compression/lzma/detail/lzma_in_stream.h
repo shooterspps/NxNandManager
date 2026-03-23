@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../../extlibs/lzma/Types.h"
 
 #include <condition_variable>

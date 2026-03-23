@@ -1,4 +1,4 @@
-#include "qutils.h"
+﻿#include "qutils.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -57,7 +57,7 @@ QString FileDialog(QWidget *parent, fdMode mode, const QString& defaultName, con
     QString filePath;
     if (mode == open_file)
     {
-        filePath = fd.getOpenFileName(parent, "Open file", "default_dir\\", filters);
+        filePath = fd.getOpenFileName(parent, "打开文件", "default_dir\\", filters);
     }
     else if (mode == save_to_dir)
     {
@@ -69,7 +69,7 @@ QString FileDialog(QWidget *parent, fdMode mode, const QString& defaultName, con
     else
     {
         fd.setAcceptMode(QFileDialog::AcceptSave); // Ask overwrite        
-        filePath = fd.getSaveFileName(parent, "Save as", "default_dir\\" + defaultName);
+        filePath = fd.getSaveFileName(parent, "另存为", "default_dir\\" + defaultName);
     }
     if (!filePath.isEmpty())
     {
@@ -385,7 +385,7 @@ void VfsMountRunner::updateSettings()
     /// Get available mount points
     auto mount_points = GetAvailableMountPoints();
     if (!mount_points.size())
-        emit error(1, "No mount point available");
+        emit error(1, "没有可用的挂载位置");
     m_mount_point = mount_points.at(0);
     /// User prefered mount point
     auto setting_key = QString("mount_%1_mountPoint").arg(QString::fromStdString(m_partition->partitionName()));
@@ -407,7 +407,7 @@ void VfsMountRunner::updateSettings()
 
 void VfsMountRunner::run(const QString &YesNoQuestion)
 {
-    if (YesNoQuestion.length() && QMessageBox::question(nullptr, "Mount partition",
+    if (YesNoQuestion.length() && QMessageBox::question(nullptr, "挂载分区",
                                         YesNoQuestion, QMessageBox::Yes | QMessageBox::No) == QMessageBox::No)
         return;
 
@@ -418,7 +418,7 @@ void VfsMountRunner::run(const QString &YesNoQuestion)
     connect(m_partition, &NxPartition::vfs_mounted_signal, this, &VfsMountRunner::mounted);
     connect(m_partition, &NxPartition::vfs_callback, [&](long status){
         if (status == DOKAN_DRIVER_INSTALL_ERROR)
-            emit error(1, "Dokan driver not installed. Please mount from main window to install driver.");
+            emit error(1, "Dokan 驱动没有安装. 请从主窗口安装驱动程序.");
         else if (status < -1000)
             emit error((int)status, nullptr);
         else if (status != DOKAN_SUCCESS)

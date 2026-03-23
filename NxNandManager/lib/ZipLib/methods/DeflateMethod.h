@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ICompressionMethod.h"
 #include "../compression/deflate/deflate_encoder.h"
 #include "../compression/deflate/deflate_decoder.h"

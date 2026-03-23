@@ -1,4 +1,4 @@
-#include "ZipArchiveEntry.h"
+﻿#include "ZipArchiveEntry.h"
 #include "ZipArchive.h"
 
 #include "detail/ZipLocalFileHeader.h"

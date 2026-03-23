@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <streambuf>
 #include <istream>
 #include <cstdint>

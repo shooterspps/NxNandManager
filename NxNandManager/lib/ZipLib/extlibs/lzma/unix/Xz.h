@@ -1,4 +1,4 @@
-/* Xz.h - Xz interface
+﻿/* Xz.h - Xz interface
 2010-09-17 : Igor Pavlov : Public domain */
 
 #ifndef __XZ_H

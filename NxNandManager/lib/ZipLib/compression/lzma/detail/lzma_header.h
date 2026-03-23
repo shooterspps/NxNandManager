@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "lzma_handle.h"
 #include "lzma_out_stream.h"
 

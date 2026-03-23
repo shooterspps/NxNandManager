@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Explorer</class>
- <widget class="QDialog" name="Explorer">
+ <widget class="QDialog" name="浏览">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
       <enum>Qt::ActionsContextMenu</enum>
      </property>
      <property name="locale">
-      <locale language="English" country="UnitedStates"/>
+      <locale language="Chinese" country="China"/>
      </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -182,7 +182,7 @@
       </size>
      </property>
      <property name="text">
-      <string>Directory:</string>
+      <string>目录:</string>
      </property>
     </widget>
    </item>

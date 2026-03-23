@@ -1,4 +1,4 @@
-#include "utils.h"
+﻿#include "utils.h"
 using namespace std;
 
 wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
@@ -141,7 +141,7 @@ std::string GetReadableSize(u64 size)
 	}
 	else
 	{
-		sprintf_s(buf, sizeof(buf), "%I64d byte%s", size, size>1 ? "s" : "");
+		sprintf_s(buf, sizeof(buf), "%I64d byte%s", size, size>1 ? "" : "");
 	}
 	return std::string(buf);
 }
@@ -171,7 +171,7 @@ void throwException(int rc, const char* errorStr)
 		{
 			if(ErrorLabelArr[i].error == rc)
 			{
-				printf("ERROR: %s\n", ErrorLabelArr[i].label);
+				printf("错误: %s\n", ErrorLabelArr[i].label);
                 SetThreadExecutionState(ES_CONTINUOUS);
                 exit(rc);
 			}

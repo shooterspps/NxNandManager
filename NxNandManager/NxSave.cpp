@@ -1,4 +1,4 @@
-// Copyright SciresM (hactool)
+﻿// Copyright SciresM (hactool)
 // Modified by eliboa for NxNandManager
 
 #include "NxSave.h"

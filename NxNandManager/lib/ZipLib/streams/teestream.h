@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <ostream>
 #include <cstdint>
 #include "streambuffs/tee_streambuff.h"

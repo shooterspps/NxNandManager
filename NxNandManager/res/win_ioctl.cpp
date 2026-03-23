@@ -1,4 +1,4 @@
-#include "win_ioctl.h"
+﻿#include "win_ioctl.h"
 
 bool compareVolByInt(const volumeDescriptor& a, const volumeDescriptor b)
 {
@@ -67,7 +67,7 @@ bool GetVolumeDescriptor(volumeDescriptor* vd, LPWSTR VolumeName)
     vd->diskNumber = pDiskExtent->DiskNumber;
     vd->pId = std::string(productId);
     vd->vId = std::string(vendorId);    
-    if (!vd->pId.find("UMS disk") && !vd->vId.find("Linux"))
+    if (!vd->pId.find("UMS 磁盘") && !vd->vId.find("Linux"))
         vd->vId.append(" (memloader)");
     vd->serialNumber = std::string(serialNumber);
     vd->diskSize = pdg.Cylinders.QuadPart * (ULONG)pdg.TracksPerCylinder * (ULONG)pdg.SectorsPerTrack * (ULONG)pdg.BytesPerSector;

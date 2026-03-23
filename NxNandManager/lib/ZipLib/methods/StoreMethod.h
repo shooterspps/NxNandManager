@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ICompressionMethod.h"
 #include "../compression/store/store_encoder.h"
 #include "../compression/store/store_decoder.h"

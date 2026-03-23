@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2019 eliboa
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -31,7 +31,7 @@ Properties::Properties(NxStorage *in) :
     ui->PropertiesTable->setColumnWidth(0, 100);
     ui->PropertiesTable->setColumnWidth(1, 220);
     QStringList header;
-    header<<"Property"<<"Value";
+    header<<"属性"<<"值";
     ui->PropertiesTable->setHorizontalHeaderLabels(header);
     QFont font("Calibri", 10, QFont::Bold);
     ui->PropertiesTable->horizontalHeader()->setFont(font);
@@ -43,31 +43,31 @@ Properties::Properties(NxStorage *in) :
 
     wstring ws(input->m_path);
     ui->PropertiesTable->setRowCount(i+1);
-    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Path"));
+    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("路径"));
     ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(string(ws.begin(), ws.end()).c_str()));
     i++;
 
-    sprintf(buffer, "%s%s", input->getNxTypeAsStr(), input->isSplitted() ? " (splitted dump)" : "");
+    sprintf(buffer, "%s%s", input->getNxTypeAsStr(), input->isSplitted() ? " (分卷备份)" : "");
     ui->PropertiesTable->setRowCount(i+1);
-    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("NAND type"));
+    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("NAND 类型"));
     ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(QString(buffer).trimmed()));
     i++;
 
     ui->PropertiesTable->setRowCount(i+1);
-    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("File/Disk"));
-    ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->isDrive() ? "Disk" : "File"));
+    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("文件/磁盘"));
+    ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->isDrive() ? "磁盘" : "文件"));
     i++;
 
 
-    sprintf(buffer, "%s%s", input->isEncrypted() ? "Yes" : "No",
-                    input->isEncrypted() && input->badCrypto() ? "  !!! DECRYPTION FAILED !!!" : "");
+    sprintf(buffer, "%s%s", input->isEncrypted() ? "是" : "否",
+                    input->isEncrypted() && input->badCrypto() ? "  !!! 解密失败 !!!" : "");
     ui->PropertiesTable->setRowCount(i+1);
-    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Encrypted"));
+    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("加密"));
     ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(QString(buffer).trimmed()));
     i++;
 
     ui->PropertiesTable->setRowCount(i+1);
-    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Size"));
+    ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("大小"));
     ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(GetReadableSize(input->size()).c_str()));
     i++;
 
@@ -75,19 +75,19 @@ Properties::Properties(NxStorage *in) :
     if (nullptr != boot0)
     {
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("SoC revision"));
-        ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->isEristaBoot0 ? "Erista" : "Unknown (Mariko ?)"));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("SoC 修订"));
+        ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->isEristaBoot0 ? "Erista" : "未知 (Mariko ?)"));
         i++;
 
         if (input->isEristaBoot0)
         {
             ui->PropertiesTable->setRowCount(i+1);
             ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Auto RCM"));
-            ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->autoRcm ? "Enabled" : "Disabled"));
+            ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->autoRcm ? "启用" : "禁用"));
             i++;
 
             ui->PropertiesTable->setRowCount(i+1);
-            ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Bootloader ver."));
+            ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Bootloader 版本"));
             sprintf(buffer, "%d", static_cast<int>(input->bootloader_ver));
             ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(QString(buffer).trimmed()));
             i++;
@@ -97,13 +97,13 @@ Properties::Properties(NxStorage *in) :
     if(strlen(input->fw_version))
     {
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Firmware ver."));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("固件版本"));
         ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->fw_version));
         i++;
 
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("ExFat driver"));
-        ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->exFat_driver ? "Detected" : "Undetected"));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("ExFat 驱动"));
+        ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->exFat_driver ? "检测到" : "未检测到"));
         i++;
     }
     /*
@@ -118,7 +118,7 @@ Properties::Properties(NxStorage *in) :
     if (strlen(input->serial_number) > 3)
     {
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Serial number"));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("序列号"));
         ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->serial_number));
         i++;
     }
@@ -126,7 +126,7 @@ Properties::Properties(NxStorage *in) :
     if (strlen(input->deviceId) > 0)
     {
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Device Id"));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("设备 ID"));
         ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->deviceId));
         i++;
     }
@@ -135,7 +135,7 @@ Properties::Properties(NxStorage *in) :
     if (input->macAddress.length() > 0)
     {
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("MAC Address"));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("MAC 地址"));
         //ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(hexStr(reinterpret_cast<unsigned char*>(input->wlanMacAddress), 6).c_str()));
         ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(input->macAddress.c_str()));
         i++;
@@ -144,14 +144,14 @@ Properties::Properties(NxStorage *in) :
     if (input->type == RAWNAND || input->type == RAWMMC)
     {
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Backup GPT"));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("GPT 备份"));
         if(input->backupGPT())
         {
-            sprintf(buffer, "FOUND (offset 0x%s)", n2hexstr(input->backupGPT(), 10).c_str());
+            sprintf(buffer, "找到 (偏移 0x%s)", n2hexstr(input->backupGPT(), 10).c_str());
             ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem(QString(buffer).trimmed()));
         }
         else
-            ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem("NOT FOUND"));
+            ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem("未找到"));
         i++;
     }
 
@@ -169,7 +169,7 @@ Properties::Properties(NxStorage *in) :
     u8 device_nickname[0x16];
     if (settings.readSaveFile(file, device_nickname, 0x2A950, 0x16) == 0x16) {
         ui->PropertiesTable->setRowCount(i+1);
-        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("Device nickname"));
+        ui->PropertiesTable->setItem(i, 0, new QTableWidgetItem("设备昵称"));
         ui->PropertiesTable->setItem(i, 1, new QTableWidgetItem((const char*)device_nickname));
         i++;
     }

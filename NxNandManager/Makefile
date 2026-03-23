@@ -1,4 +1,4 @@
-CC       = gcc
+﻿CC       = gcc
 CXX      = g++
 CXXFLAGS=-std=c++11 -fexceptions -DUNICODE -D_UNICODE -fPIC -fpermissive 
 CFLAGS= -fPIC -Wno-enum-conversion -O3

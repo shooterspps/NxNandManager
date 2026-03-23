@@ -1,4 +1,4 @@
-#ifndef HACTOOLNET_H
+﻿#ifndef HACTOOLNET_H
 #define HACTOOLNET_H
 
 #include <QObject>

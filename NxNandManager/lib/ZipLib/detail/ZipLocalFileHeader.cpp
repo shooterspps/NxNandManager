@@ -1,4 +1,4 @@
-#include "ZipLocalFileHeader.h"
+﻿#include "ZipLocalFileHeader.h"
 #include "ZipCentralDirectoryFileHeader.h"
 
 #include "../streams/serialization.h"

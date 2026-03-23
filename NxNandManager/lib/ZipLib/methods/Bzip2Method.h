@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ICompressionMethod.h"
 #include "../compression/bzip2/bzip2_encoder.h"
 #include "../compression/bzip2/bzip2_decoder.h"

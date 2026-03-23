@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include "streambuffs/zip_crypto_streambuf.h"
 

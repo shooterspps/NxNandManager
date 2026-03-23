@@ -1,4 +1,4 @@
-/* Lzma86Enc.c -- LZMA + x86 (BCJ) Filter Encoder
+﻿/* Lzma86Enc.c -- LZMA + x86 (BCJ) Filter Encoder
 2008-08-05
 Igor Pavlov
 Public domain */

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DialogOpenDrive</class>
  <widget class="QDialog" name="DialogOpenDrive">
@@ -38,12 +38,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Size</string>
+       <string>大小</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Value</string>
+       <string>值</string>
       </property>
      </column>
     </widget>
@@ -51,7 +51,7 @@
    <item row="2" column="1">
     <widget class="QCheckBox" name="RemovableCheckBox">
      <property name="text">
-      <string>Show removable drives only</string>
+      <string>仅显示可移动驱动器</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -109,7 +109,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Scanning drives, please wait</string>
+      <string>扫描驱动器, 请等待</string>
      </property>
      <property name="textFormat">
       <enum>Qt::RichText</enum>

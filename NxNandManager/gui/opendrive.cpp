@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2019 eliboa
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -23,7 +23,7 @@ OpenDrive::OpenDrive(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(this, SIGNAL(finished(QString)), parent, SLOT(driveSet(QString)));
-    setWindowTitle("Drives");
+    setWindowTitle("驱动器");
 
     ui->treeWidget->setEnabled(false);
     ui->treeWidget->hide();
@@ -55,7 +55,7 @@ void OpenDrive::build_DriveList()
 
     QTreeWidgetItem *topLevelItem = new QTreeWidgetItem(ui->treeWidget);
     ui->treeWidget->addTopLevelItem(topLevelItem);
-    topLevelItem->setText(0,"Drives & volumes");
+    topLevelItem->setText(0,"驱动器和卷");
 
     for (diskDescriptor disk : m_disks)
     {

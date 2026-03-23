@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __gui_h__
 #define __gui_h__
 

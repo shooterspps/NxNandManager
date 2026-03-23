@@ -1,4 +1,4 @@
-#include "emunand.h"
+﻿#include "emunand.h"
 #include "ui_emunand.h"
 
 Emunand::Emunand(QWidget *parent, NxStorage *input) :
@@ -194,7 +194,7 @@ void Emunand::on_boo0_pushBtn_clicked()
             ui->boot0_path->setText(fileName);
             m_par.boot0_path = fileName.toStdWString();
         }
-        else QMessageBox::critical(nullptr,"Error", "Selected file is not a valid BOOT0 file");
+        else QMessageBox::critical(nullptr,"错误", "所选文件不是有效 BOOT0 文件");
     }
 }
 
@@ -209,7 +209,7 @@ void Emunand::on_boo1_pushBtn_clicked()
             ui->boot1_path->setText(fileName);
             m_par.boot1_path = fileName.toStdWString();
         }
-        else QMessageBox::critical(nullptr,"Error", "Selected file is not a valid BOOT1 file");
+        else QMessageBox::critical(nullptr,"错误", "所选文件不是有效 BOOT1 文件");
     }
 }
 
@@ -221,11 +221,11 @@ void Emunand::on_emunandType_toggled(int type)
             if(ui->emunandType_SDFileSXChkBox->isChecked()) ui->emunandType_SDFileSXChkBox->setChecked(false);
             if(!ui->emunandType_PartitionChkBox->isChecked()) ui->emunandType_PartitionChkBox->setChecked(true);
             ui->emunandType_lbl->setText(
-                "An hidden partition for emuNAND will be created on target disk.\n"
-                "A second partition (FAT32) for user purpose (SD Files) will be \n"
-                "created with space left. All data on target disk will be erased.\n"
+                "在目标磁盘上创建隐藏分区形式的虚拟系统.\n"
+                "剩余空间将创建 USER 分区 (SD 文件, FAT32) 并格式化空间.\n"
+                "创建将清除目标磁盘上所有的数据文件.\n"
             );
-            ui->driveListBox->setTitle("Select target disk:");
+            ui->driveListBox->setTitle("选择目标磁盘:");
             updateDisksList();
             m_driveList_type = DISK;
             m_emu_type = rawBased;
@@ -236,10 +236,10 @@ void Emunand::on_emunandType_toggled(int type)
             if(ui->emunandType_PartitionChkBox->isChecked()) ui->emunandType_PartitionChkBox->setChecked(false);
             if(!ui->emunandType_SDFileAMSChkBox->isChecked()) ui->emunandType_SDFileAMSChkBox->setChecked(true);
             ui->emunandType_lbl->setText(
-                "This will create file based emuNAND and needed files for\n"
-                "Atmosphere CFW on target volume."
+                "创建文件形式的虚拟系统与相关文件\n"
+                "目标卷 → 大气层 CFW."
             );
-            ui->driveListBox->setTitle("Select target volume:");
+            ui->driveListBox->setTitle("选择目标卷:");
             updateVolumesList();
             m_driveList_type = VOLUME;
             m_emu_type = fileBasedAMS;
@@ -250,10 +250,10 @@ void Emunand::on_emunandType_toggled(int type)
             if(ui->emunandType_PartitionChkBox->isChecked()) ui->emunandType_PartitionChkBox->setChecked(false);
             if(!ui->emunandType_SDFileSXChkBox->isChecked()) ui->emunandType_SDFileSXChkBox->setChecked(true);
             ui->emunandType_lbl->setText(
-                "This will create file based emuNAND and needed files for\n"
-                "SX OS CFW on target volume."
+                "创建文件形式的虚拟系统与相关文件\n"
+                "目标卷 → SX OS CFW."
             );
-            ui->driveListBox->setTitle("Select target volume:");
+            ui->driveListBox->setTitle("选择目标卷:");
             updateVolumesList();
             m_driveList_type = VOLUME;
             m_emu_type = fileBasedSXOS;
@@ -318,7 +318,7 @@ void Emunand::on_driveList_itemSelectionChanged()
 
         if(emuNandSize > disk->size)
         {
-            ui->outBar->setFormat("NOT ENOUGH SPACE !");
+            ui->outBar->setFormat("没有足够空间 !");
             m_notEnoughSpace = true;
         }
         else
@@ -328,8 +328,8 @@ void Emunand::on_driveList_itemSelectionChanged()
 
             unsigned int emuNandPct = emuNandSize * 100 / (disk->size);
             ui->outBar->setValue(emuNandPct);
-            ui->outLbl1->setText("emuNAND: " + QString::fromStdString(GetReadableSize(emuNandSize)));
-            ui->outLbl2->setText("User partition: " + QString::fromStdString(GetReadableSize(userPartSize)));
+            ui->outLbl1->setText("虚拟系统: " + QString::fromStdString(GetReadableSize(emuNandSize)));
+            ui->outLbl2->setText("USER 分区: " + QString::fromStdString(GetReadableSize(userPartSize)));
             ui->outPix2->setGeometry(170, ui->outPix2->y(), ui->outPix2->width(), ui->outPix2->height());
             ui->outLbl2->setGeometry(190, ui->outLbl2->y(), ui->outLbl2->width(), ui->outLbl2->height());
         }
@@ -351,7 +351,7 @@ void Emunand::on_driveList_itemSelectionChanged()
 
         if(emuNandSize > freeSpace)
         {
-            ui->outBar->setFormat("NOT ENOUGH SPACE !");
+            ui->outBar->setFormat("没有足够空间 !");
             m_notEnoughSpace = true;
         }
         else
@@ -359,8 +359,8 @@ void Emunand::on_driveList_itemSelectionChanged()
             u64 usedBytes = vol->size - u64(freeSpace - emuNandSize);
             unsigned int usedSpace = usedBytes * 100 / vol->size;
             ui->outBar->setValue(usedSpace);
-            ui->outLbl1->setText("Used space + emuNand: " + QString::fromStdString(GetReadableSize(usedBytes)));
-            ui->outLbl2->setText("Free space: " + QString::fromStdString(GetReadableSize(freeSpace - emuNandSize)));
+            ui->outLbl1->setText("已用空间+虚拟系统: " + QString::fromStdString(GetReadableSize(usedBytes)));
+            ui->outLbl2->setText("空闲空间: " + QString::fromStdString(GetReadableSize(freeSpace - emuNandSize)));
             ui->outPix2->setGeometry(205, ui->outPix2->y(), ui->outPix2->width(), ui->outPix2->height());
             ui->outLbl2->setGeometry(225, ui->outLbl2->y(), ui->outLbl2->width(), ui->outLbl2->height());
         }
@@ -407,22 +407,22 @@ void Emunand::on_createEmunandBtn_clicked()
     std::vector<QString> errors;
 
     if(nullptr == input)
-        return error("Input is missing");
+        return error("导入无效");
     else if(not_in(input->type, { RAWNAND, RAWMMC}))
-        return error("Input must be RAWNAND or FULL NAND");
+        return error("导入必须是 RAWNAND 或 FULL NAND");
 
     if (m_notEnoughSpace)
-        return error("Not enough space on target volume/disk");
+        return error("目标卷/磁盘上没有足够空间");
 
     if (input->type == RAWNAND)
     {
         NxStorage boot0(m_par.boot0_path);
         if (boot0.type != BOOT0)
-            return error("Input BOOT0 is missing or invalid");
+            return error("导入的 BOOT0 缺失或无效");
 
         NxStorage boot1(m_par.boot1_path);
         if (boot1.type != BOOT1)
-            return error("Input BOOT1 is missing or invalid");
+            return error("导入的 BOOT1 缺失或无效");
     }
 
     if(!ui->driveList->selectedItems().count())
@@ -438,7 +438,7 @@ void Emunand::on_createEmunandBtn_clicked()
         output = volumename;
     }
 
-    if (m_emu_type == rawBased && QMessageBox::question(this, "Warning", "All data on target disk will be lost. Are you sure you want to continue ?", QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
+    if (m_emu_type == rawBased && QMessageBox::question(this, "警告", "目标磁盘上的所有数据都将丢失. 是否确定继续 ?", QMessageBox::Yes | QMessageBox::No) != QMessageBox::Yes)
         return;
 
     // Do WORK
@@ -449,5 +449,5 @@ void Emunand::on_createEmunandBtn_clicked()
 }
 void Emunand::error(QString err)
 {
-    QMessageBox::critical(nullptr,"Error", err);
+    QMessageBox::critical(nullptr,"错误", err);
 }

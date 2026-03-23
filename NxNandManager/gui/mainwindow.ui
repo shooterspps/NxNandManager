@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -33,7 +33,7 @@
     <normaloff>:/images/logo.png</normaloff>:/images/logo.png</iconset>
   </property>
   <property name="locale">
-   <locale language="English" country="UnitedStates"/>
+   <locale language="Chinese" country="China"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -52,7 +52,7 @@
        </font>
       </property>
       <property name="title">
-       <string>Storage Information</string>
+       <string>存储信息</string>
       </property>
       <property name="flat">
        <bool>false</bool>
@@ -158,7 +158,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Name :</string>
+          <string>名称 :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -261,7 +261,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Nx type :</string>
+          <string>Nx 类型 :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -364,7 +364,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Size :</string>
+          <string>大小 :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -467,7 +467,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Device ID :</string>
+          <string>设备 ID :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -520,7 +520,7 @@
           </font>
          </property>
          <property name="text">
-          <string>N/A</string>
+          <string>不适用</string>
          </property>
         </widget>
        </item>
@@ -570,7 +570,7 @@
           </font>
          </property>
          <property name="text">
-          <string>FW ver. :</string>
+          <string>固件版本 :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -623,7 +623,7 @@
           </font>
          </property>
          <property name="text">
-          <string>N/A</string>
+          <string>不适用</string>
          </property>
         </widget>
        </item>
@@ -706,7 +706,7 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="text">
-       <string>more info (CTRL + I)</string>
+       <string>更多信息 (CTRL + I)</string>
       </property>
       <property name="flat">
        <bool>true</bool>
@@ -722,7 +722,7 @@
        </font>
       </property>
       <property name="title">
-       <string>Partitions:</string>
+       <string>分区:</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
@@ -781,7 +781,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Selected partition:</string>
+          <string>选定的分区:</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -804,10 +804,10 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Quick dump</string>
+               <string>快速备份</string>
               </property>
               <property name="statusTip">
-               <string>Save as file...</string>
+               <string>文件另存为...</string>
               </property>
               <property name="text">
                <string/>
@@ -836,10 +836,10 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Advanced copy</string>
+               <string>高级复制</string>
               </property>
               <property name="statusTip">
-               <string>Advanced copy</string>
+               <string>高级复制</string>
               </property>
               <property name="text">
                <string/>
@@ -868,10 +868,10 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Restore from file</string>
+               <string>从文件还原</string>
               </property>
               <property name="statusTip">
-               <string>Restore from file</string>
+               <string>从文件还原</string>
               </property>
               <property name="text">
                <string/>
@@ -993,7 +993,7 @@ QTableCornerButton::section {background-color: transparent;}</string>
        </font>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Analysing input...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;解析导入...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -1033,16 +1033,16 @@ QTableCornerButton::section {background-color: transparent;}</string>
          </size>
         </property>
         <property name="toolTip">
-         <string>Restore from file...</string>
+         <string>从文件还原...</string>
         </property>
         <property name="statusTip">
-         <string>Restore from file...</string>
+         <string>从文件还原...</string>
         </property>
         <property name="accessibleName">
          <string>full restore</string>
         </property>
         <property name="text">
-         <string>FULL or PARTIAL RESTORE</string>
+         <string>完全或部分还原</string>
         </property>
         <property name="shortcut">
          <string>Backspace, Return</string>
@@ -1064,10 +1064,10 @@ QTableCornerButton::section {background-color: transparent;}</string>
          <enum>Qt::StrongFocus</enum>
         </property>
         <property name="toolTip">
-         <string>Saves as file...</string>
+         <string>文件另存为...</string>
         </property>
         <property name="statusTip">
-         <string>Save as file...</string>
+         <string>文件另存为...</string>
         </property>
         <property name="accessibleName">
          <string>full dump</string>
@@ -1076,7 +1076,7 @@ QTableCornerButton::section {background-color: transparent;}</string>
          <string>Full dump</string>
         </property>
         <property name="text">
-         <string>FULL DUMP</string>
+         <string>完全备份</string>
         </property>
         <property name="shortcut">
          <string>Backspace, Return</string>
@@ -1103,7 +1103,7 @@ QTableCornerButton::section {background-color: transparent;}</string>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>文件</string>
     </property>
     <addaction name="actionOpenFile"/>
     <addaction name="actionOpenDrive"/>
@@ -1119,20 +1119,20 @@ QTableCornerButton::section {background-color: transparent;}</string>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Options</string>
+     <string>选项</string>
     </property>
     <addaction name="actionConfigureKeyset"/>
     <addaction name="actionRestartDebug"/>
    </widget>
    <widget class="QMenu" name="menuDebug">
     <property name="title">
-     <string>Debug</string>
+     <string>调试</string>
     </property>
     <addaction name="actionDebug_console"/>
    </widget>
    <widget class="QMenu" name="menuTools_2">
     <property name="title">
-     <string>Tools</string>
+     <string>工具</string>
     </property>
     <addaction name="actionIncognito"/>
     <addaction name="actionautoRCM"/>
@@ -1152,13 +1152,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
    </property>
    <property name="text">
-    <string>Open file</string>
+    <string>打开文件</string>
    </property>
    <property name="toolTip">
-    <string>Open an existing file</string>
+    <string>打开现有文件</string>
    </property>
    <property name="statusTip">
-    <string>Open an existing file</string>
+    <string>打开现有文件</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -1170,13 +1170,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/drive.png</normaloff>:/images/drive.png</iconset>
    </property>
    <property name="text">
-    <string>Open drive</string>
+    <string>打开驱动器</string>
    </property>
    <property name="toolTip">
-    <string>Open a physical drive</string>
+    <string>打开一个物理驱动器</string>
    </property>
    <property name="statusTip">
-    <string>Open a physical drive</string>
+    <string>打开一个物理驱动器</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
@@ -1187,13 +1187,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Properties</string>
+    <string>属性</string>
    </property>
    <property name="toolTip">
-    <string>Display useful information about current file/drive</string>
+    <string>显示当前文件/驱动器有用信息</string>
    </property>
    <property name="statusTip">
-    <string>Display useful information about current file/drive</string>
+    <string>显示当前文件/驱动器有用信息</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
@@ -1205,13 +1205,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/keyset.png</normaloff>:/images/keyset.png</iconset>
    </property>
    <property name="text">
-    <string>Configure keyset</string>
+    <string>配置密钥</string>
    </property>
    <property name="toolTip">
-    <string>Configure keyset to encrypt/decrypt NAND</string>
+    <string>配置密钥来加密/解密 NAND</string>
    </property>
    <property name="statusTip">
-    <string>Configure keyset to encrypt/decrypt NAND</string>
+    <string>配置密钥来加密/解密 NAND</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+K</string>
@@ -1226,16 +1226,16 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
-    <string>Save as... (raw dump)</string>
+    <string>另存为... (备份 raw)</string>
    </property>
    <property name="iconText">
-    <string>Dump as file...</string>
+    <string>备份文件为...</string>
    </property>
    <property name="toolTip">
-    <string>Dump as file...</string>
+    <string>备份文件为...</string>
    </property>
    <property name="statusTip">
-    <string>Dump as file...</string>
+    <string>备份文件为...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -1253,13 +1253,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/decrypt.png</normaloff>:/images/decrypt.png</iconset>
    </property>
    <property name="text">
-    <string>Decrypt and Save as...</string>
+    <string>解密并另存为...</string>
    </property>
    <property name="toolTip">
-    <string>Decrypt &amp; Dump as file...</string>
+    <string>解密并备份文件为...</string>
    </property>
    <property name="statusTip">
-    <string>Decrypt &amp; Dump as file...</string>
+    <string>解密并备份文件为...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+D</string>
@@ -1274,13 +1274,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/encrypt.png</normaloff>:/images/encrypt.png</iconset>
    </property>
    <property name="text">
-    <string>Encrypt and Save as...</string>
+    <string>加密并另存为...</string>
    </property>
    <property name="toolTip">
-    <string>Encrypt &amp; Dump as file...</string>
+    <string>加密并备份文件为...</string>
    </property>
    <property name="statusTip">
-    <string>Encrypt &amp; Dump as file...</string>
+    <string>加密并备份文件为...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+E</string>
@@ -1295,13 +1295,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/restore.png</normaloff>:/images/restore.png</iconset>
    </property>
    <property name="text">
-    <string>Restore from file...</string>
+    <string>从文件还原...</string>
    </property>
    <property name="toolTip">
-    <string>Full restore from file...</string>
+    <string>从文件完全还原...</string>
    </property>
    <property name="statusTip">
-    <string>Full restore from file...</string>
+    <string>从文件完全还原...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -1316,13 +1316,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/incognito.png</normaloff>:/images/incognito.png</iconset>
    </property>
    <property name="text">
-    <string>Incognito (PRODINFO)</string>
+    <string>擦除序列号 (PRODINFO)</string>
    </property>
    <property name="toolTip">
-    <string>Wipe all console unique id's from CAL0</string>
+    <string>擦除全部 CAL0 设备中唯一 ID</string>
    </property>
    <property name="statusTip">
-    <string>Wipe all console unique id's from CAL0</string>
+    <string>擦除全部 CAL0 设备中唯一 ID</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+I</string>
@@ -1337,13 +1337,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/autorcm.png</normaloff>:/images/autorcm.png</iconset>
    </property>
    <property name="text">
-    <string>Toggle autoRCM (BOOT0)</string>
+    <string>切换 autoRCM (BOOT0)</string>
    </property>
    <property name="toolTip">
-    <string>Enable/Disable autoRCM (BOOT0 only)</string>
+    <string>启用/禁用 autoRCM (仅 BOOT0)</string>
    </property>
    <property name="statusTip">
-    <string>Enable/Disable autoRCM (BOOT0 only)</string>
+    <string>启用/禁用 autoRCM (仅 BOOT0)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+A</string>
@@ -1358,13 +1358,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/resize.png</normaloff>:/images/resize.png</iconset>
    </property>
    <property name="text">
-    <string>Resize NAND (RAWNAND, FULL NAND)</string>
+    <string>调整 NAND 大小 (RAWNAND, FULL NAND)</string>
    </property>
    <property name="toolTip">
-    <string>Resize USER partition</string>
+    <string>调整 USER 分区大小</string>
    </property>
    <property name="statusTip">
-    <string>Resize USER partition</string>
+    <string>调整 USER 分区大小</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+R</string>
@@ -1375,13 +1375,13 @@ QTableCornerButton::section {background-color: transparent;}</string>
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Dump RAWNAND only (FULL NAND)</string>
+    <string>仅备份 RAWNAND (FULL NAND)</string>
    </property>
    <property name="toolTip">
-    <string>Dump RAWNAND from FULL NAND</string>
+    <string>FULL NAND 备份 RAWNAND</string>
    </property>
    <property name="statusTip">
-    <string>Dump RAWNAND from FULL NAND</string>
+    <string>FULL NAND 备份 RAWNAND</string>
    </property>
   </action>
   <action name="actionCreateEmunand">
@@ -1393,7 +1393,7 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/emunand.png</normaloff>:/images/emunand.png</iconset>
    </property>
    <property name="text">
-    <string>Emunand Creation Tool (RAWNAND, FULL NAND)</string>
+    <string>虚拟系统创建工具 (RAWNAND, FULL NAND)</string>
    </property>
   </action>
   <action name="actionSaveAsAdvanced">
@@ -1405,7 +1405,7 @@ QTableCornerButton::section {background-color: transparent;}</string>
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
-    <string>Save as... (advanced)</string>
+    <string>另存为... (高级)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -1413,7 +1413,7 @@ QTableCornerButton::section {background-color: transparent;}</string>
   </action>
   <action name="actionDebug_console">
    <property name="text">
-    <string>Console</string>
+    <string>控制台</string>
    </property>
   </action>
   <action name="actionCloseFileDrive">
@@ -1421,10 +1421,10 @@ QTableCornerButton::section {background-color: transparent;}</string>
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Close file/drive</string>
+    <string>关闭文件/驱动器</string>
    </property>
    <property name="statusTip">
-    <string>Close current file/drive</string>
+    <string>关闭当前文件/驱动器</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>
@@ -1432,12 +1432,12 @@ QTableCornerButton::section {background-color: transparent;}</string>
   </action>
   <action name="actionRestartDebug">
    <property name="text">
-    <string>Restart program in debug mode</string>
+    <string>以调试模式重新启动程序</string>
    </property>
   </action>
   <action name="actionConfigureHactool">
    <property name="text">
-    <string>Configure hactool</string>
+    <string>配置 hactool</string>
    </property>
   </action>
  </widget>

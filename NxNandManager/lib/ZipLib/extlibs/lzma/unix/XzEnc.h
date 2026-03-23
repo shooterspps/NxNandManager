@@ -1,4 +1,4 @@
-/* XzEnc.h -- Xz Encode
+﻿/* XzEnc.h -- Xz Encode
 2009-04-15 : Igor Pavlov : Public domain */
 
 #ifndef __XZ_ENC_H
